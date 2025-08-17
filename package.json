@@ -1,10 +1,12 @@
 {
   "name": "pharmacy-app",
   "version": "0.0.0",
+  "main": "main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration production",
+    "electron": "electron .",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:pharmacy-app": "node dist/pharmacy-app/server/server.mjs"
@@ -32,6 +34,7 @@
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
+    "electron": "^37.3.0",
     "jasmine-core": "~5.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
