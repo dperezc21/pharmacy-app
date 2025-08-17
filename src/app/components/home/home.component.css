@@ -1,0 +1,26 @@
+.home-container {
+  padding: 30px;
+  text-align: center;
+}
+
+.quick-links {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.card {
+  padding: 20px 30px;
+  background-color: #1976d2;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: background-color 0.2s ease;
+}
+
+.card:hover {
+  background-color: #125ea9;
+}
