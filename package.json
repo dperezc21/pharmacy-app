@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --configuration production",
-    "electron": "electron .",
+    "electron": "npm run build && electron .",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:pharmacy-app": "node dist/pharmacy-app/server/server.mjs"
