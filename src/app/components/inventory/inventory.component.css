@@ -1,0 +1,27 @@
+.inventory-container {
+  padding: 20px;
+}
+
+.margin-2px {
+  margin: 2px;
+}
+
+.stock-none {
+  color: red;
+  font-weight: bold;
+}
+
+.stock-low {
+  color: orange;
+  font-weight: bold;
+}
+
+.stock-medium {
+  color: goldenrod;
+  font-weight: bold;
+}
+
+.stock-high {
+  color: green;
+  font-weight: bold;
+}

@@ -1,13 +1,13 @@
 <header class="header-container">
   <div class="logo-section">
-    <span class="title">Farmacia Salud Total</span>
+    <span class="title">Farmacia....</span>
   </div>
 
   <nav class="nav-links">
-    <a routerLink="/">Inicio</a>
-    <a routerLink="/products">Productos</a>
-    <a routerLink="/inventario">Inventario</a>
-    <a routerLink="/pago">Pagar</a>
-    <a routerLink="/historial">Historial</a>
+    <a [routerLinkActive]="'link-is-activated'" routerLink="/home">Inicio</a>
+    <a [routerLinkActive]="'link-is-activated'" routerLink="/products">Productos</a>
+    <a [routerLinkActive]="'link-is-activated'" routerLink="/inventory">Inventario</a>
+    <a [routerLinkActive]="'link-is-activated'" routerLink="/pago">Pagar</a>
+    <a [routerLinkActive]="'link-is-activated'" routerLink="/historial">Historial</a>
   </nav>
 </header>
