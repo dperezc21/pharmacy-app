@@ -1,0 +1,17 @@
+<div class="flex-column-center">
+  <h2>Añadir Laboratoario</h2>
+  <form [formGroup]="labForm" (ngSubmit)="saveLab()" class="form-container">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre del laboratorio</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" type="submit">Guardar</button>
+  </form>
+</div>
+
