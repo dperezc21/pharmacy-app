@@ -1,4 +1,4 @@
-import {Component, input, OnInit, output} from '@angular/core';
+import {Component, inject, input, OnInit, output, signal} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgForOf} from '@angular/common';
 import {MatSelect} from '@angular/material/select';
@@ -8,6 +8,14 @@ import {MatInput, MatLabel} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 import {MatCardActions} from '@angular/material/card';
 import {Product} from '../../models/product.model';
+import {MatIcon} from '@angular/material/icon';
+import {MatDialog} from '@angular/material/dialog';
+import {AddCategoryComponent} from '../add-category/add-category.component';
+import {AddLaboratoryComponent} from '../add-laboratory/add-laboratory.component';
+import {LaboratoryController} from '../../controllers/laboratory.controller';
+import {CategoryController} from '../../controllers/category.controller';
+import {Category, Laboratory} from '../../models/ApplicationValue';
+import {iif, of, switchMap, tap} from 'rxjs';
 
 @Component({
   selector: 'app-add-product',
@@ -20,7 +28,8 @@ import {Product} from '../../models/product.model';
     ReactiveFormsModule,
     MatInput,
     MatButton,
-    MatCardActions
+    MatCardActions,
+    MatIcon
   ],
   templateUrl: './add-product.component.html',
   standalone: true,
@@ -29,16 +38,20 @@ import {Product} from '../../models/product.model';
 export class AddProductComponent implements OnInit {
   productForm!: FormGroup;
 
-  laboratories: string[] = ['Bayer', 'Pfizer', 'Novartis', 'Roche'];
-  categories: string[] = ['Analgésico', 'Antibiótico', 'Antigripal', 'Vitaminas'];
+  laboratories = signal<Laboratory[]>([]); //['Bayer', 'Pfizer', 'Novartis', 'Roche'];
+  categories = signal<Category[]>([]); //['Analgésico', 'Antibiótico', 'Antigripal', 'Vitaminas'];
   goBack = output<void>();
   productSaved = input<boolean>(false);
   emitProductToSave = output<Product>();
+  readonly dialog = inject(MatDialog);
 
-
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,
+              private laboratoryController: LaboratoryController,
+              private categoryController: CategoryController) {}
 
   ngOnInit(): void {
+    this.laboratories = this.laboratoryController.laboratoriesGot();
+    this.categories = this.categoryController.categoriesGot();
     this.productForm = this.fb.group({
       code: ['', Validators.required],
       name: ['', Validators.required],
@@ -51,7 +64,7 @@ export class AddProductComponent implements OnInit {
     });
   }
 
-  guardarProducto() {
+  saveProduct() {
 
     if (this.productForm.valid) {
       const productToSave: Product = this.productForm.value;
@@ -62,5 +75,31 @@ export class AddProductComponent implements OnInit {
     } else {
       this.productForm.markAllAsTouched();
     }
+  }
+
+  dialogAddLaboratory() {
+    this.dialog.open(AddLaboratoryComponent, {
+      width: "400px",
+      height: "400px"
+    }).beforeClosed()
+      .pipe(switchMap(value => {
+        return iif(() => !!Object.values(value)?.length, this.laboratoryController.addLaboratory(value), of(null));
+      }), tap(value => {
+        if(value?.laboratoryId) this.productForm.get('laboratory')?.setValue(value);
+      }))
+      .subscribe();
+  }
+
+  dialogAddCategory() {
+    this.dialog.open(AddCategoryComponent,{
+      width: "400px",
+      height: "400px"
+    }).beforeClosed()
+      .pipe(switchMap(value => {
+        return iif(() => !!Object.values(value)?.length, this.categoryController.addCategory(value), of(null));
+      }), tap(value => {
+        if(value?.categoryId) this.productForm.get('category')?.setValue(value);
+      }))
+      .subscribe();
   }
 }
