@@ -12,26 +12,11 @@ import {
   MatTable
 } from '@angular/material/table';
 import {DatePipe, NgClass} from '@angular/common';
-import {MatButton} from '@angular/material/button';
-import {
-  MatDatepickerToggle,
-  MatDateRangeInput,
-  MatDateRangePicker,
-  MatEndDate,
-  MatStartDate
-} from '@angular/material/datepicker';
 import {MatFormField} from '@angular/material/form-field';
-import {MatInput, MatLabel, MatSuffix} from '@angular/material/input';
+import {MatInput, MatLabel} from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
+import {InventoryProduct} from '../../models/product.model';
 
-
-// product.model.ts
-export interface Product {
-  code: string;
-  name: string;
-  stock: number;
-  purchaseDate: Date;
-}
 @Component({
   selector: 'app-inventory',
   imports: [
@@ -64,8 +49,8 @@ export interface Product {
   styleUrl: './inventory.component.css'
 })
 export class InventoryComponent implements OnInit {
-  products: Product[] = [];
-  filteredProducts: Product[] = [];
+  products: InventoryProduct[] = [];
+  filteredProducts: InventoryProduct[] = [];
   filterCode: string = '';
   dateRange: { start: Date | null; end: Date | null } = { start: null, end: null };
   displayedColumns: string[] = ['code', 'name', 'stock', 'purchaseDate', 'stockLevel'];
