@@ -1,0 +1,72 @@
+<div class="productos-container">
+  <h2>Lista de Productos</h2>
+
+  <div class="acciones">
+    <button mat-raised-button color="primary" (click)="this.addProduct.emit()">➕ Agregar Producto</button>
+    <mat-form-field appearance="outline" style="height: 40px">
+      <mat-label>Buscar por código</mat-label>
+      <input matInput #codigoInput
+             (keyup.enter)="cargarProductoPorCodigo(codigoInput.value)" />
+    </mat-form-field>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!-- Código -->
+    <ng-container matColumnDef="codigo">
+      <th mat-header-cell *matHeaderCellDef> Código </th>
+      <td mat-cell *matCellDef="let element">
+        {{element.code}}
+      </td>
+    </ng-container>
+
+    <!-- Nombre -->
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef> Nombre </th>
+      <td mat-cell *matCellDef="let element">
+        {{element.name}}
+      </td>
+    </ng-container>
+
+    <!-- Precio -->
+    <ng-container matColumnDef="precio">
+      <th mat-header-cell *matHeaderCellDef> Precio </th>
+      <td mat-cell *matCellDef="let element">
+        {{element.price}}
+      </td>
+    </ng-container>
+
+    <!-- Descripción -->
+    <ng-container matColumnDef="descripcion">
+      <th mat-header-cell *matHeaderCellDef> Descripción </th>
+      <td mat-cell *matCellDef="let element">
+        {{element.description}}
+      </td>
+    </ng-container>
+
+    <!-- Categoría -->
+    <ng-container matColumnDef="categoria">
+      <th mat-header-cell *matHeaderCellDef> Categoría </th>
+      <td mat-cell *matCellDef="let element">
+        {{element.category}}
+      </td>
+    </ng-container>
+
+    <!-- Acciones -->
+    <ng-container matColumnDef="buttons">
+      <th mat-header-cell *matHeaderCellDef> Acciones </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" style="display: flex; flex-direction: row">
+          <button mat-button color="primary">📝 Editar</button>
+          <button mat-button color="warn" (click)="eliminarProducto(element.codigo)">🗑️ Eliminar</button>
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>

@@ -1,0 +1,18 @@
+.productos-container {
+  padding: 20px;
+}
+
+.acciones {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+table {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 250px;
+}
