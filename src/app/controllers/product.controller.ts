@@ -22,6 +22,7 @@ export class ProductController {
   saveProduct(product: Product): Observable<boolean> {
     return this.productService.saveProduct(product)
             .pipe(take(1), map((value: Product) => {
+              if(value?.id) this.setNewProduct(value);
               return !!value?.id;
             }));
   }
@@ -35,5 +36,8 @@ export class ProductController {
     this.destroy$.complete();
   }
 
+  private setNewProduct(product: Product): void {
+    this.productList.update(value => [...value, product]);
+  }
 
 }
