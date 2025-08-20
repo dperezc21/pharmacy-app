@@ -1,4 +1,4 @@
-import {Component, input, OnInit, output, signal} from '@angular/core';
+import {Component, input, OnInit, output} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgForOf} from '@angular/common';
 import {MatSelect} from '@angular/material/select';

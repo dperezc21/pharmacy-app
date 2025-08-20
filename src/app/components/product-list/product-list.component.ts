@@ -1,4 +1,4 @@
-import {Component, input, Input, OnInit, output} from '@angular/core';
+import {Component, input, OnInit, output} from '@angular/core';
 import {
   MatCell,
   MatCellDef,

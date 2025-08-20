@@ -1,7 +1,7 @@
 import {Injectable, signal, WritableSignal} from '@angular/core';
 import {ProductService} from '../services/product.service';
 import {Product} from '../models/product.model';
-import {map, Observable, Subject, Subscription, take, takeUntil, tap} from 'rxjs';
+import {map, Observable, Subject, take, takeUntil, tap} from 'rxjs';
 
 
 @Injectable({ providedIn: "root" })
@@ -21,8 +21,8 @@ export class ProductController {
 
   saveProduct(product: Product): Observable<boolean> {
     return this.productService.saveProduct(product)
-            .pipe(take(1), map(value => {
-              return !!product?.id;
+            .pipe(take(1), map((value: Product) => {
+              return !!value?.id;
             }));
   }
 
