@@ -1,0 +1,29 @@
+.add-product-container {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 columnas */
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.button-action {
+  grid-column: span 2;
+  justify-self: start;
+  margin: 2px;
+}
