@@ -1,0 +1,16 @@
+<div class="flex-column-center">
+  <h2>Añadir Categoria</h2>
+  <form [formGroup]="categoryForm" (ngSubmit)="saveCategory()" class="form-container">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre de la categoría</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" type="submit">Guardar</button>
+  </form>
+</div>
