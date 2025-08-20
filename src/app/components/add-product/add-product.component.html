@@ -26,11 +26,6 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Descripción</mat-label>
-      <textarea matInput formControlName="description" rows="3"></textarea>
-    </mat-form-field>
-
     <mat-form-field appearance="outline" >
       <mat-label>Peso (g)</mat-label>
       <input matInput type="number" formControlName="productWeight" />
@@ -44,6 +39,11 @@
     <mat-form-field appearance="outline" >
       <mat-label>Precio Unitario</mat-label>
       <input matInput type="number" formControlName="price" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
     </mat-form-field>
 
     <mat-card-actions class="flex-row">
