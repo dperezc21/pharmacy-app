@@ -1,4 +1,4 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, OnDestroy, OnInit, signal} from '@angular/core';
 import {Product} from '../../models/product.model';
 import {ProductListComponent} from '../product-list/product-list.component';
 import {ProductController} from '../../controllers/product.controller';
@@ -17,7 +17,7 @@ import {CategoryController} from '../../controllers/category.controller';
   standalone: true,
   styleUrl: './products.component.css'
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy {
 
   protected products = signal<Product[]>([]);
   showFormAddProduct = signal(false);
@@ -47,5 +47,9 @@ export class ProductsComponent implements OnInit {
         }
       }))
       .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.productController.destroySubscriptions();
   }
 }

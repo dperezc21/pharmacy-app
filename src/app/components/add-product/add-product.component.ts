@@ -1,4 +1,4 @@
-import {Component, inject, input, OnInit, output, signal} from '@angular/core';
+import {Component, inject, input, OnDestroy, OnInit, output, signal} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgForOf} from '@angular/common';
 import {MatSelect} from '@angular/material/select';
@@ -35,7 +35,7 @@ import {iif, of, switchMap, tap} from 'rxjs';
   standalone: true,
   styleUrl: './add-product.component.css'
 })
-export class AddProductComponent implements OnInit {
+export class AddProductComponent implements OnInit, OnDestroy {
   productForm!: FormGroup;
 
   laboratories = signal<Laboratory[]>([]); //['Bayer', 'Pfizer', 'Novartis', 'Roche'];
@@ -101,5 +101,10 @@ export class AddProductComponent implements OnInit {
         if(value?.categoryId) this.productForm.get('category')?.setValue(value);
       }))
       .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.categoryController.destroySubscriptions();
+    this.laboratoryController.destroySubscriptions();
   }
 }
