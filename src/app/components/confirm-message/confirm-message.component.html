@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>
+  <mat-icon [style.color]="iconColor">{{ icon }}</mat-icon>
+  {{ data.title }}
+</h1>
+<mat-dialog-content>
+  <p>{{ data.description }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button (click)="onCancel()">Cancelar</button>
+  <button mat-flat-button color="primary" (click)="onConfirm()">Aceptar</button>
+</mat-dialog-actions>
