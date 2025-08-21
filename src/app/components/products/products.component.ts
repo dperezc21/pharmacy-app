@@ -3,7 +3,7 @@ import {Product} from '../../models/product.model';
 import {ProductListComponent} from '../product-list/product-list.component';
 import {ProductController} from '../../controllers/product.controller';
 import {AddProductComponent} from '../add-product/add-product.component';
-import {tap} from 'rxjs';
+import {iif, tap} from 'rxjs';
 import {LaboratoryController} from '../../controllers/laboratory.controller';
 import {CategoryController} from '../../controllers/category.controller';
 
@@ -22,6 +22,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   protected products = signal<Product[]>([]);
   showFormAddProduct = signal(false);
   productSaved = signal<boolean>(false);
+  productToEdit = signal<Product | undefined>(undefined);
 
   constructor(private productController: ProductController,
               private laboratoryController: LaboratoryController,
@@ -39,7 +40,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   saveProduct(product: Product) {
-    this.productController.saveProduct(product)
+    this.productController.saveOrEditProduct(product)
       .pipe(tap(value => {
         if(value) {
           this.displayFormAddProduct();
@@ -47,6 +48,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
         }
       }))
       .subscribe();
+  }
+
+  displayFormToEditProduct(product: Product) {
+    this.displayFormAddProduct();
+    this.productToEdit.set(product);
   }
 
   ngOnDestroy(): void {

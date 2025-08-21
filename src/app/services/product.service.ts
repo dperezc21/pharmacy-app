@@ -16,4 +16,9 @@ export class ProductService {
   saveProduct(product: Product): Observable<Product> {
     return this.http.post<Product>(PRODUCT_URL, product).pipe(map(value => value));
   }
+
+  editProduct(product: Product) {
+    return this.http.put<Product>(`${PRODUCT_URL}/${product.id}`, product)
+      .pipe(map(value => value));
+  }
 }

@@ -14,8 +14,10 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Laboratorio</mat-label>
-      <mat-select formControlName="laboratory">
-        <mat-option *ngFor="let lab of laboratories()" [value]="lab">{{ lab.name }}</mat-option>
+      <mat-select formControlName="laboratory" [compareWith]="compareLaboratories">
+        @for (laboratory of laboratories(); track laboratory.laboratoryId) {
+          <mat-option [value]="laboratory">{{ laboratory.name }}</mat-option>
+        }
         <mat-option (click)="dialogAddLaboratory()">
           <mat-icon>add</mat-icon>Nuevo Laboratorio</mat-option>
       </mat-select>
@@ -23,8 +25,10 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Categoría</mat-label>
-      <mat-select formControlName="category">
-        <mat-option *ngFor="let cat of categories()" [value]="cat">{{ cat.name }}</mat-option>
+      <mat-select formControlName="category" [compareWith]="compareCategories">
+        @for (category of categories(); track category.categoryId) {
+          <mat-option [value]="category">{{ category.name }}</mat-option>
+        }
         <mat-option (click)="dialogAddCategory()">
           <mat-icon>add</mat-icon>Nueva Categoria</mat-option>
       </mat-select>

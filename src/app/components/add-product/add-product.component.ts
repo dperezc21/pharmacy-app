@@ -1,6 +1,5 @@
 import {Component, inject, input, OnDestroy, OnInit, output, signal} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {NgForOf} from '@angular/common';
 import {MatSelect} from '@angular/material/select';
 import {MatOption} from '@angular/material/core';
 import {MatFormField} from '@angular/material/form-field';
@@ -23,7 +22,6 @@ import {iif, of, switchMap, tap} from 'rxjs';
     MatFormField,
     MatLabel,
     MatOption,
-    NgForOf,
     MatSelect,
     ReactiveFormsModule,
     MatInput,
@@ -44,6 +42,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   productSaved = input<boolean>(false);
   emitProductToSave = output<Product>();
   readonly dialog = inject(MatDialog);
+  productToEdit = input<Product>();
 
   constructor(private fb: FormBuilder,
               private laboratoryController: LaboratoryController,
@@ -52,26 +51,32 @@ export class AddProductComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.laboratories = this.laboratoryController.laboratoriesGot();
     this.categories = this.categoryController.categoriesGot();
+
     this.productForm = this.fb.group({
-      code: ['', Validators.required],
-      name: ['', Validators.required],
-      laboratory: ['', Validators.required],
-      category: ['', Validators.required],
-      description: [''],
-      productWeight: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
-      iva: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
-      price: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
+      code: [this.productToEdit()?.code ?? '', Validators.required],
+      name: [this.productToEdit()?.name ?? '', Validators.required],
+      laboratory: [this.productToEdit()?.laboratory ?? '', Validators.required],
+      category: [this.productToEdit()?.category ?? '', Validators.required],
+      description: [this.productToEdit()?.description ?? ''],
+      productWeight: [this.productToEdit()?.productWeight ?? '', [Validators.required, Validators.pattern(/^\d+(\.\d{1,9})?$/)]],
+      iva: [this.productToEdit()?.iva ?? '', [Validators.required, Validators.min(0), Validators.max(100)]],
+      price: [this.productToEdit()?.price ?? '', [Validators.required, Validators.min(0)]],
     });
   }
 
-  saveProduct() {
+  compareCategories(o1: Category, o2: Category): boolean {
+    return o1.categoryId === o2.categoryId;
+  }
 
+  compareLaboratories(o1: Laboratory, o2: Laboratory): boolean {
+    return o1.laboratoryId === o2.laboratoryId;
+  }
+
+  saveProduct() {
     if (this.productForm.valid) {
       const productToSave: Product = this.productForm.value;
+      if(this.productToEdit()?.id) productToSave.id = this.productToEdit()?.id;
       this.emitProductToSave.emit(productToSave);
-      console.log('Producto guardado:', productToSave);
-      // Aquí puedes llamar a un servicio para guardar en el backend
-      this.productForm.reset();
     } else {
       this.productForm.markAllAsTouched();
     }

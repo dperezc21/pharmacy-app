@@ -8,6 +8,7 @@ export interface Product {
   category: string;
   productWeight: number;
   laboratory: string;
+  iva: number;
 }
 
 // product.model.ts

@@ -2,8 +2,9 @@
 @if (this.showFormAddProduct()) {
   <app-add-product (goBack)="displayFormAddProduct()"
                    (emitProductToSave)="saveProduct($event)"
-                    [productSaved]="productSaved()"></app-add-product>
+                    [productSaved]="productSaved()" [productToEdit]="productToEdit()"></app-add-product>
 } @else {
   <app-product-list [products]="products()"
-                    (addProduct)="displayFormAddProduct()"></app-product-list>
+                    (addProduct)="displayFormAddProduct()"
+                    (editProduct)="displayFormToEditProduct($event)"></app-product-list>
 }
