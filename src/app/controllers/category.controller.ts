@@ -3,6 +3,7 @@ import {CategoryService} from '../services/category.service';
 import {Category} from '../models/ApplicationValue';
 import {Observable, tap} from 'rxjs';
 import {DestroySubject} from '../services/destroy-subject.service';
+import {SnackBarService} from '../services/snack-bar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import {DestroySubject} from '../services/destroy-subject.service';
 export class CategoryController extends DestroySubject {
   private categories = signal<Category[]>([]);
 
-  constructor(private categoryService: CategoryService) {
+  constructor(private categoryService: CategoryService, private snackBarService: SnackBarService) {
     super();
   }
 
@@ -23,7 +24,10 @@ export class CategoryController extends DestroySubject {
 
   addCategory(category: Category): Observable<Category> {
     return this.categoryService.create(category).pipe(tap(value => {
-      if(value?.categoryId) this.setNewCategory(value);
+      if(value?.categoryId) {
+        this.setNewCategory(value);
+        this.snackBarService.showMessage("Categoria Guardada Correctamente");
+      }
     }));
   }
 

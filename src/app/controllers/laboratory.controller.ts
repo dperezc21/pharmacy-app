@@ -3,6 +3,7 @@ import {LaboratoryService} from '../services/laboratory.service';
 import {Laboratory} from '../models/ApplicationValue';
 import {Observable, take, takeUntil, tap} from 'rxjs';
 import {DestroySubject} from '../services/destroy-subject.service';
+import {SnackBarService} from '../services/snack-bar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import {DestroySubject} from '../services/destroy-subject.service';
 export class LaboratoryController extends DestroySubject {
   private laboratories = signal<Laboratory[]>([]);
 
-  constructor(private laboratoryService: LaboratoryService) {
+  constructor(private laboratoryService: LaboratoryService, private snackBarService: SnackBarService) {
     super();}
 
   loadLaboratories(): void {
@@ -22,7 +23,10 @@ export class LaboratoryController extends DestroySubject {
 
   addLaboratory(lab: Laboratory): Observable<Laboratory> {
     return this.laboratoryService.createLaboratory(lab).pipe(take(1), tap(value => {
-      if(value?.laboratoryId) this.setNewLaboratory(value);
+      if(value?.laboratoryId) {
+        this.setNewLaboratory(value);
+        this.snackBarService.showMessage("Laboratorio Guardado Correctamente");
+      }
     }));
   }
 

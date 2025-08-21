@@ -3,6 +3,7 @@ import {ProductService} from '../services/product.service';
 import {Product} from '../models/product.model';
 import {iif, map, Observable, take, takeUntil, tap} from 'rxjs';
 import {DestroySubject} from '../services/destroy-subject.service';
+import {SnackBarService} from '../services/snack-bar.service';
 
 
 @Injectable({ providedIn: "root" })
@@ -10,7 +11,7 @@ export class ProductController extends DestroySubject {
 
   private productList: WritableSignal<Product[]> = signal([]);
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService, private snackBarService: SnackBarService) {
     super();}
 
   getAllProducts(): void {
@@ -27,7 +28,10 @@ export class ProductController extends DestroySubject {
   saveProduct(product: Product): Observable<boolean> {
     return this.productService.saveProduct(product)
             .pipe(take(1), map((value: Product) => {
-              if(value?.id) this.setNewProduct(value);
+              if(value?.id) {
+                this.setNewProduct(value);
+                this.snackBarService.showMessage("Producto Guardado Correctamente");
+              }
               return !!value?.id;
             }));
   }
@@ -35,14 +39,20 @@ export class ProductController extends DestroySubject {
   editProduct(product: Product): Observable<boolean> {
     return this.productService.editProduct(product)
       .pipe(take(1), map((value: Product) => {
-        if(value?.id) this.updateProductEdited(value);
+        if(value?.id) {
+          this.updateProductEdited(value);
+          this.snackBarService.showMessage("Producto Editado Correctamente");
+        }
         return !!value?.id;
       }));
   }
 
   deleteProduct(productId: number): Observable<boolean> {
     return this.productService.deleteProduct(productId).pipe(tap(value => {
-      if(value) this.removeProductOfList(productId);
+      if(value) {
+        this.removeProductOfList(productId);
+        this.snackBarService.showMessage("El Producto fue Eliminado");
+      }
     }))
   }
 
