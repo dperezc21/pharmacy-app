@@ -1,16 +1,17 @@
 import {Injectable, signal, WritableSignal} from '@angular/core';
 import {ProductService} from '../services/product.service';
 import {Product} from '../models/product.model';
-import {map, Observable, Subject, take, takeUntil, tap} from 'rxjs';
+import {map, Observable, take, takeUntil, tap} from 'rxjs';
+import {DestroySubject} from '../services/destroy-subject.service';
 
 
 @Injectable({ providedIn: "root" })
-export class ProductController {
+export class ProductController extends DestroySubject {
 
-  private destroy$: Subject<void> = new Subject<void>();
   private productList: WritableSignal<Product[]> = signal([]);
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService) {
+    super();}
 
   getAllProducts(): void {
     this.productService.getAllProducts()
@@ -29,11 +30,6 @@ export class ProductController {
 
   productsGot(): WritableSignal<Product[]> {
     return this.productList;
-  }
-
-  destroySubscriptions() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   private setNewProduct(product: Product): void {

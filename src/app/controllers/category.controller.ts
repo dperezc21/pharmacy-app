@@ -1,16 +1,17 @@
 import {Injectable, signal} from '@angular/core';
 import {CategoryService} from '../services/category.service';
 import {Category} from '../models/ApplicationValue';
-import {Observable, Subject, tap} from 'rxjs';
+import {Observable, tap} from 'rxjs';
+import {DestroySubject} from '../services/destroy-subject.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryController {
-  private destroy$: Subject<void> = new Subject<void>();
+export class CategoryController extends DestroySubject {
   private categories = signal<Category[]>([]);
 
   constructor(private categoryService: CategoryService) {
+    super();
   }
 
   loadCategories(): void {
@@ -32,10 +33,5 @@ export class CategoryController {
 
   private setNewCategory(newCategory: Category): void {
     this.categories.update(value => [...value, newCategory]);
-  }
-
-  destroySubscriptions() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

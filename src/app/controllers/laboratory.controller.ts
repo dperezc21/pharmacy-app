@@ -1,16 +1,17 @@
 import {Injectable, signal} from '@angular/core';
 import {LaboratoryService} from '../services/laboratory.service';
 import {Laboratory} from '../models/ApplicationValue';
-import {Observable, Subject, take, takeUntil, tap} from 'rxjs';
+import {Observable, take, takeUntil, tap} from 'rxjs';
+import {DestroySubject} from '../services/destroy-subject.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LaboratoryController {
-  private destroy$: Subject<void> = new Subject<void>();
+export class LaboratoryController extends DestroySubject {
   private laboratories = signal<Laboratory[]>([]);
 
-  constructor(private laboratoryService: LaboratoryService) {}
+  constructor(private laboratoryService: LaboratoryService) {
+    super();}
 
   loadLaboratories(): void {
     this.laboratoryService.getAllLaboratories().pipe(takeUntil(this.destroy$)).subscribe({
@@ -31,10 +32,5 @@ export class LaboratoryController {
 
   private setNewLaboratory(newLaboratory: Laboratory): void {
     this.laboratories.update(value => [...value, newLaboratory]);
-  }
-
-  destroySubscriptions() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }
