@@ -6,5 +6,6 @@
 } @else {
   <app-product-list [products]="products()"
                     (addProduct)="displayFormAddProduct()"
-                    (editProduct)="displayFormToEditProduct($event)"></app-product-list>
+                    (editProduct)="displayFormToEditProduct($event)"
+                    (deleteProduct)="dialogDeleteProduct($event)"></app-product-list>
 }

@@ -1,11 +1,14 @@
-import {Component, OnDestroy, OnInit, signal} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
 import {Product} from '../../models/product.model';
 import {ProductListComponent} from '../product-list/product-list.component';
 import {ProductController} from '../../controllers/product.controller';
 import {AddProductComponent} from '../add-product/add-product.component';
-import {iif, tap} from 'rxjs';
+import {EMPTY, switchMap, tap} from 'rxjs';
 import {LaboratoryController} from '../../controllers/laboratory.controller';
 import {CategoryController} from '../../controllers/category.controller';
+import {ConfirmMessageComponent} from '../confirm-message/confirm-message.component';
+import {MatDialog} from '@angular/material/dialog';
+import {ConfirmMessageData} from '../../models/confirm-message-data';
 
 @Component({
   selector: 'app-products',
@@ -23,6 +26,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   showFormAddProduct = signal(false);
   productSaved = signal<boolean>(false);
   productToEdit = signal<Product | undefined>(undefined);
+  private dialog = inject(MatDialog);
 
   constructor(private productController: ProductController,
               private laboratoryController: LaboratoryController,
@@ -57,5 +61,17 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.productController.destroySubscriptions();
+  }
+
+  dialogDeleteProduct(product: Product) {
+    const description = `¿Esta seguro que desea eliminar el producto ${product.name}`;
+    const infoData: ConfirmMessageData = { type: 'info', title: "Delete Product", description };
+    const dialogRef = this.dialog.open(ConfirmMessageComponent, {
+      width: '400px',
+      data: infoData,
+    });
+    dialogRef.afterClosed().pipe(switchMap(value => {
+      return value ? this.productController.deleteProduct(product.id as number): EMPTY;
+    })).subscribe(console.log);
   }
 }

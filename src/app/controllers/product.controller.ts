@@ -40,6 +40,12 @@ export class ProductController extends DestroySubject {
       }));
   }
 
+  deleteProduct(productId: number): Observable<boolean> {
+    return this.productService.deleteProduct(productId).pipe(tap(value => {
+      if(value) this.removeProductOfList(productId);
+    }))
+  }
+
   productsGot(): WritableSignal<Product[]> {
     return this.productList;
   }
@@ -51,5 +57,10 @@ export class ProductController extends DestroySubject {
   private updateProductEdited(product: Product ): void {
     const mapProducts: Product[] = this.productList().map(value => value.id === product.id ? product: value)
     this.productList.set(mapProducts);
+  }
+
+  private removeProductOfList(productId: number): void {
+    const productsFiltered: Product[] = this.productList().filter(value => value.id !== productId);
+    this.productList.set(productsFiltered);
   }
 }

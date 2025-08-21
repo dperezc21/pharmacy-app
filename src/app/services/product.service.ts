@@ -21,4 +21,10 @@ export class ProductService {
     return this.http.put<Product>(`${PRODUCT_URL}/${product.id}`, product)
       .pipe(map(value => value));
   }
+
+  deleteProduct(productId: number): Observable<boolean> {
+    return this.http.delete<boolean>(`${PRODUCT_URL}/${productId}`)
+      .pipe(map((value: boolean) => value));
+
+  }
 }
