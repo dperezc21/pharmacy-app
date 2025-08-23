@@ -11,6 +11,6 @@
       <textarea matInput formControlName="description" rows="3"></textarea>
     </mat-form-field>
 
-    <button mat-flat-button color="primary" type="submit">Guardar</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="categoryForm.invalid">Guardar</button>
   </form>
 </div>

@@ -34,7 +34,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.products = this.productController.productsGot();
-    this.productController.getAllProducts();
     this.categoryController.loadCategories();
     this.laboratoryController.loadLaboratories();
   }

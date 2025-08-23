@@ -14,11 +14,11 @@ export class ProductController extends DestroySubject {
   constructor(private productService: ProductService, private snackBarService: SnackBarService) {
     super();}
 
-  getAllProducts(): void {
-    this.productService.getAllProducts()
+  getAllProducts(): Observable<Product[]> {
+    return this.productService.getAllProducts()
       .pipe(takeUntil(this.destroy$), tap({
         next: (products: Product[]) => this.productList.set(products)
-      })).subscribe();
+      }));
   }
 
   saveOrEditProduct(product: Product): Observable<boolean> {
