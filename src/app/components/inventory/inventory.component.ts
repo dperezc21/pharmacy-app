@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {NgIf} from '@angular/common';
 import {MatFormField} from '@angular/material/form-field';
 import {MatInput, MatLabel} from '@angular/material/input';
@@ -7,6 +7,9 @@ import {InventoryProduct} from '../../models/product.model';
 import {InventoryListComponent} from '../inventory-list/inventory-list.component';
 import {MatButton} from '@angular/material/button';
 import {OrderProductFormComponent} from '../order-product-form/order-product-form.component';
+import {OrderRequestData} from '../../models/order-product.model';
+import {tap} from 'rxjs';
+import {OrderProductController} from '../../controllers/order-product.controller';
 
 @Component({
   selector: 'app-inventory',
@@ -29,6 +32,10 @@ export class InventoryComponent implements OnInit {
   filteredProducts: InventoryProduct[] = [];
   filterCode: string = '';
   makeInventory!: boolean;
+  savingOrder =signal<boolean>(false);
+
+  constructor(private orderProductController: OrderProductController) {
+  }
 
   ngOnInit(): void {
     // Simulación de productos (en producción, esto vendría de un servicio)
@@ -49,6 +56,14 @@ export class InventoryComponent implements OnInit {
 
   purchaseOrder() {
     this.makeInventory = !this.makeInventory;
+  }
+
+  buysProducts(data: OrderRequestData) {
+    this.savingOrder.set(true);
+    this.orderProductController.buysProducts(data).pipe(tap({
+      next: (value) => this.savingOrder.set(value),
+      error: () => this.savingOrder.set(false)
+    })).subscribe();
   }
 
 }

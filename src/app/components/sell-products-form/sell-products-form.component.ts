@@ -1,6 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, signal} from '@angular/core';
 import {OrderProductFormComponent} from '../order-product-form/order-product-form.component';
 import {InventoryProduct} from '../../models/product.model';
+import {OrderRequestData} from '../../models/order-product.model';
+import {OrderProductController} from '../../controllers/order-product.controller';
+import {tap} from 'rxjs';
 
 @Component({
   selector: 'app-order-form',
@@ -37,9 +40,15 @@ export class SellProductsFormComponent {
     }
   ];
 
-  constructor() {}
+  savingOrder =signal<boolean>(false);
 
-  sellProduct(data: any) {
-    console.log(data);
+  constructor(private orderProductController: OrderProductController) {}
+
+  sellProduct(data: OrderRequestData) {
+    this.savingOrder.set(true);
+    this.orderProductController.sellProducts(data).pipe(tap({
+      next: (value) => this.savingOrder.set(value),
+      error: () => this.savingOrder.set(false)
+    })).subscribe();
   }
 }

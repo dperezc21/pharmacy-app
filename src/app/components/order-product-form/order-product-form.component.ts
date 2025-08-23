@@ -1,4 +1,4 @@
-import {Component, input, OnInit, output} from '@angular/core';
+import {Component, Input, input, OnChanges, OnInit, output, SimpleChanges} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {tap} from 'rxjs';
 import {MatIcon} from '@angular/material/icon';
@@ -11,6 +11,7 @@ import {NgForOf, NgIf} from '@angular/common';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
 import {InventoryProduct} from '../../models/product.model';
 import {OrderProduct, OrderProductForm, OrderRequestData} from '../../models/order-product.model';
+import {OrderProductController} from '../../controllers/order-product.controller';
 
 @Component({
   selector: 'app-order-product-form',
@@ -37,15 +38,16 @@ import {OrderProduct, OrderProductForm, OrderRequestData} from '../../models/ord
   standalone: true,
   styleUrl: './order-product-form.component.css'
 })
-export class OrderProductFormComponent implements OnInit {
+export class OrderProductFormComponent implements OnInit, OnChanges {
   products = input<InventoryProduct[]>([]);
   sendOrderData = output<OrderRequestData>();
   goBack = output();
   orderForm!: FormGroup;
   totalPrice: number = 0;
   enableButtonCancel = input<boolean>(false);
+  @Input() saving!: boolean;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private orderProduct: OrderProductController) {}
 
   get productsFormArray() {
     return this.orderForm.get('products') as FormArray;
@@ -67,6 +69,7 @@ export class OrderProductFormComponent implements OnInit {
   }
 
   sendRequest() {
+    this.saving = true;
     if (this.orderForm.valid) {
       const formData = this.orderForm.value;
       const orderProducts: OrderProduct[] = formData.products.map((productForm: OrderProductForm) => {
@@ -74,12 +77,12 @@ export class OrderProductFormComponent implements OnInit {
         return {
           productId: inventoryProduct?.id,
           quantity: productForm.quantity,
-          totalPrice: inventoryProduct ? inventoryProduct.price * productForm.quantity : 0
+          unitPrice: inventoryProduct ? inventoryProduct.price : 0
         };
       }) as OrderProduct[];
 
       this.sendOrderData.emit({
-        products: orderProducts,
+        orderItems: orderProducts,
         total: this.totalPrice,
         date: formData.date,
         observations: formData?.observations ?? ''
@@ -109,5 +112,11 @@ export class OrderProductFormComponent implements OnInit {
       const products: OrderProductForm[] = value;
       this.totalPrice = this.productsSelectedTotalPrice(products);
     })).subscribe();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const saving: boolean = changes["saving"]?.currentValue;
+    if(!saving && this.enableButtonCancel() && this.orderProduct.orderIsDone()()) this.goBack.emit();
+    else if(!saving && this.orderProduct.orderIsDone()()) this.orderForm?.reset();
   }
 }

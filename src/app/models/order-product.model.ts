@@ -4,12 +4,12 @@ export interface OrderProductForm {
   quantity: number;
 }
 
-export interface OrderProduct extends OrderProductForm{
-  totalPrice: number;
+export interface OrderProduct extends OrderProductForm {
+  unitPrice: number;
 }
 
 export interface OrderRequestData {
-  products: OrderProduct[],
+  orderItems: OrderProduct[],
   total: number,
   date: Date,
   observations: string
