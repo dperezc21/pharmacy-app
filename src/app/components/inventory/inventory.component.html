@@ -12,7 +12,7 @@
 
   <div *ngIf="makeInventory">
     <h2 class="flex-justify-center">Abastecer Inventario</h2>
-    <app-order-product-form [products]="filteredProducts"
+    <app-order-product-form [products]="products"
                             [enableButtonCancel]="true"
                             (goBack)="purchaseOrder()"
                             [saving]="savingOrder()" (sendOrderData)="buysProducts($event)"></app-order-product-form>

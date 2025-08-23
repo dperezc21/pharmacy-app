@@ -9,6 +9,7 @@ export interface Product {
   productWeight: number;
   laboratory: string;
   iva: number;
+  salePrice: number;
 }
 
 export interface InventoryProduct {

@@ -24,8 +24,8 @@
         <mat-form-field appearance="outline" class="product-select">
           <mat-label>Producto</mat-label>
           <mat-select formControlName="productId">
-            <mat-option *ngFor="let prod of products()" [value]="prod.id">
-              {{ prod.name }} - ${{prod.price}}
+            <mat-option *ngFor="let product of products()" [value]="product.id">
+              {{ product.name }} - {{product.productWeight}} gramos
             </mat-option>
           </mat-select>
         </mat-form-field>

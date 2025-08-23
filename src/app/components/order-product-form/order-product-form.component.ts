@@ -9,7 +9,7 @@ import {MatOption} from '@angular/material/core';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {NgForOf, NgIf} from '@angular/common';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
-import {InventoryProduct} from '../../models/product.model';
+import {Product} from '../../models/product.model';
 import {OrderProduct, OrderProductForm, OrderRequestData} from '../../models/order-product.model';
 import {OrderProductController} from '../../controllers/order-product.controller';
 
@@ -39,7 +39,7 @@ import {OrderProductController} from '../../controllers/order-product.controller
   styleUrl: './order-product-form.component.css'
 })
 export class OrderProductFormComponent implements OnInit, OnChanges {
-  products = input<InventoryProduct[]>([]);
+  products = input<Product[]>([]);
   sendOrderData = output<OrderRequestData>();
   goBack = output();
   orderForm!: FormGroup;
@@ -73,7 +73,7 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
     if (this.orderForm.valid) {
       const formData = this.orderForm.value;
       const orderProducts: OrderProduct[] = formData.products.map((productForm: OrderProductForm) => {
-        const inventoryProduct: InventoryProduct = this.products().find((product: InventoryProduct) => product.id === productForm.productId) as InventoryProduct;
+        const inventoryProduct: Product = this.products().find((product: Product) => product.id === productForm.productId) as Product;
         return {
           productId: inventoryProduct?.id,
           quantity: productForm.quantity,
@@ -93,7 +93,7 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
   productsSelectedTotalPrice(products: OrderProductForm[]): number {
     return products.reduce((previousValue, currentValue) => {
       if(currentValue?.productId) {
-        const findProduct = this.products().find((value1: any) => value1.id == currentValue.productId) as InventoryProduct;
+        const findProduct: Product = this.products().find((value1: any) => value1.id == currentValue.productId) as Product;
         previousValue+=(currentValue.quantity * findProduct.price as number)
       }
       return previousValue;

@@ -26,10 +26,12 @@ export const routes: Routes = [
   },
   {
     path: "inventory",
-    component: InventoryComponent
+    component: InventoryComponent,
+    resolve: { getAllProducts: getProductsResolver }
   },
   {
     path: "sale",
-    component: SellProductsFormComponent
+    component: SellProductsFormComponent,
+    resolve: { getAllProducts: getProductsResolver }
   }
 ];
