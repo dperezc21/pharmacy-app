@@ -15,11 +15,11 @@ export class CategoryController extends DestroySubject {
     super();
   }
 
-  loadCategories(): void {
-    this.categoryService.getAll().subscribe({
+  loadCategories(): Observable<Category[]> {
+    return this.categoryService.getAll().pipe(tap({
       next: (data) => this.categories.set(data),
       error: (err) => console.error('Error cargando categorías:', err)
-    });
+    }));
   }
 
   addCategory(category: Category): Observable<Category> {
