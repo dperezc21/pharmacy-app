@@ -14,11 +14,11 @@ export class LaboratoryController extends DestroySubject {
   constructor(private laboratoryService: LaboratoryService, private snackBarService: SnackBarService) {
     super();}
 
-  loadLaboratories(): void {
-    this.laboratoryService.getAllLaboratories().pipe(takeUntil(this.destroy$)).subscribe({
+  loadLaboratories(): Observable<Laboratory[]> {
+    return this.laboratoryService.getAllLaboratories().pipe(takeUntil(this.destroy$), tap({
       next: (data) => this.laboratories.set(data),
       error: (err) => console.error('Error cargando laboratorios:', err)
-    });
+    }));
   }
 
   addLaboratory(lab: Laboratory): Observable<Laboratory> {

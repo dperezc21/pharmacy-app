@@ -8,7 +8,8 @@ export class getProductsResolver implements Resolve<Product[]>{
   constructor(private productController: ProductController) {
   }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): MaybeAsync<RedirectCommand | Product[]> {
-    if(this.productController.productsGot()()?.length) return this.productController.productsGot()();
+    const products: Product[] = this.productController.productsGot()();
+    if(products?.length) return products;
     return this.productController.getAllProducts();
   }
 }

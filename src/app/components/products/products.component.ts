@@ -4,7 +4,6 @@ import {ProductListComponent} from '../product-list/product-list.component';
 import {ProductController} from '../../controllers/product.controller';
 import {AddProductComponent} from '../add-product/add-product.component';
 import {EMPTY, switchMap, tap} from 'rxjs';
-import {LaboratoryController} from '../../controllers/laboratory.controller';
 import {ConfirmMessageComponent} from '../confirm-message/confirm-message.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmMessageData} from '../../models/confirm-message-data';
@@ -27,12 +26,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
   productToEdit = signal<Product | undefined>(undefined);
   private dialog = inject(MatDialog);
 
-  constructor(private productController: ProductController,
-              private laboratoryController: LaboratoryController) {}
+  constructor(private productController: ProductController) {}
 
   ngOnInit(): void {
     this.products = this.productController.productsGot();
-    this.laboratoryController.loadLaboratories();
   }
 
   displayFormAddProduct() {
