@@ -1,0 +1,65 @@
+<div class="order-product-form">
+
+  <form [formGroup]="orderForm" (ngSubmit)="sendRequest()" class="width-65">
+    <div class="header-buttons">
+      <button mat-stroked-button color="primary" type="button" style="margin-bottom: 15px" (click)="addProduct()">
+        <mat-icon>add</mat-icon> Agregar producto
+      </button>
+
+      <div class="total-display">
+        <strong>Total del pedido:</strong> ${{ totalPrice }}
+      </div>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Fecha del pedido</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div formArrayName="products">
+      <div *ngFor="let item of productsFormArray.controls; let i = index" [formGroupName]="i" class="product-item">
+
+        <mat-form-field appearance="outline" class="product-select">
+          <mat-label>Producto</mat-label>
+          <mat-select formControlName="productId">
+            <mat-option *ngFor="let prod of products()" [value]="prod.id">
+              {{ prod.name }} - ${{prod.price}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="product-quantity">
+          <mat-label>Cantidad</mat-label>
+          <input type="number" matInput formControlName="quantity" min="1">
+        </mat-form-field>
+
+        <button *ngIf="productsFormArray.length > 1"
+                mat-icon-button
+                color="warn"
+                type="button"
+                (click)="removeProduct(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Observaciones</mat-label>
+      <textarea matInput formControlName="observations" rows="3"></textarea>
+    </mat-form-field>
+
+    <div class="buttons-action-container">
+      <button class="margin-2px" *ngIf="enableButtonCancel()" mat-stroked-button color="accent"
+              type="button" (click)="goBack.emit()">
+        Cancelar
+      </button>
+
+      <button class="margin-2px" mat-flat-button color="accent" type="submit" [disabled]="orderForm.invalid">
+        Aceptar
+      </button>
+    </div>
+
+  </form>
+</div>
