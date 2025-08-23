@@ -1,60 +1,17 @@
 <div class="inventory-container">
-  <div class="filters">
+  <div *ngIf="!makeInventory" class="buttons-actions-inventory">
     <mat-form-field appearance="outline" class="margin-2px">
       <mat-label>Código del medicamento</mat-label>
       <input matInput [(ngModel)]="filterCode" (input)="applyCodeFilter()">
     </mat-form-field>
 
-    <!--<mat-form-field appearance="outline" class="margin-2px">
-      <mat-label>Rango de fechas</mat-label>
-      <mat-date-range-input [rangePicker]="picker" (ngModelChange)="applyRangeDateFilter()" [ngModel]="dateRange">
-        <input matStartDate placeholder="Fecha inicio" />
-        <input matEndDate placeholder="Fecha fin" />
-      </mat-date-range-input>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker></mat-date-range-picker>
-    </mat-form-field>-->
-
-    <!--<button mat-raised-button color="primary" (click)="clearFilters()">Limpiar</button>-->
+    <button mat-flat-button color="primary" (click)="purchaseOrder()">Abastecer Inventario</button>
   </div>
 
-  <table mat-table [dataSource]="filteredProducts" class="mat-elevation-z8">
+  <app-inventory-list *ngIf="!makeInventory" [products]="filteredProducts"></app-inventory-list>
 
-    <!-- Código -->
-    <ng-container matColumnDef="code">
-      <th mat-header-cell *matHeaderCellDef> Código </th>
-      <td mat-cell *matCellDef="let product"> {{product.code}} </td>
-    </ng-container>
-
-    <!-- Nombre -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Nombre </th>
-      <td mat-cell *matCellDef="let product"> {{product.name}} </td>
-    </ng-container>
-
-    <!-- Stock -->
-    <ng-container matColumnDef="stock">
-      <th mat-header-cell *matHeaderCellDef> Stock (unid.) </th>
-      <td mat-cell *matCellDef="let product"> {{product.stock}} </td>
-    </ng-container>
-
-    <!-- Fecha de Compra -->
-    <ng-container matColumnDef="purchaseDate">
-      <th mat-header-cell *matHeaderCellDef> Fecha de Compra </th>
-      <td mat-cell *matCellDef="let product"> {{product.purchaseDate | date}} </td>
-    </ng-container>
-
-    <!-- Nivel de Stock -->
-    <ng-container matColumnDef="stockLevel">
-      <th mat-header-cell *matHeaderCellDef> Nivel de Stock </th>
-      <td mat-cell *matCellDef="let product">
-      <span [ngClass]="getStockLevelClass(product.stock)">
-        {{ getStockLevelText(product.stock) }}
-      </span>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+  <div *ngIf="makeInventory">
+    <h2 class="flex-justify-center">Abastecer Inventario</h2>
+    <app-order-product-form [products]="filteredProducts" [enableButtonCancel]="true" (goBack)="purchaseOrder()"></app-order-product-form>
+  </div>
 </div>

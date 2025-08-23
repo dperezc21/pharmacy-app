@@ -1,9 +1,10 @@
 .inventory-container {
-  padding: 20px;
+  padding: 10px;
 }
 
-.margin-2px {
-  margin: 2px;
+.buttons-actions-inventory {
+  display: flex;
+  justify-content: space-between;
 }
 
 .stock-none {

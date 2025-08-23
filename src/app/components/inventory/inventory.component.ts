@@ -1,48 +1,24 @@
 import {Component, OnInit} from '@angular/core';
-import {
-  MatCell,
-  MatCellDef,
-  MatColumnDef,
-  MatHeaderCell,
-  MatHeaderCellDef,
-  MatHeaderRow,
-  MatHeaderRowDef,
-  MatRow,
-  MatRowDef,
-  MatTable
-} from '@angular/material/table';
-import {DatePipe, NgClass} from '@angular/common';
+import {NgIf} from '@angular/common';
 import {MatFormField} from '@angular/material/form-field';
 import {MatInput, MatLabel} from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
 import {InventoryProduct} from '../../models/product.model';
+import {InventoryListComponent} from '../inventory-list/inventory-list.component';
+import {MatButton} from '@angular/material/button';
+import {OrderProductFormComponent} from '../order-product-form/order-product-form.component';
 
 @Component({
   selector: 'app-inventory',
   imports: [
-    MatHeaderCell,
-    MatCell,
-    MatCellDef,
-    DatePipe,
-    MatColumnDef,
-    MatHeaderCellDef,
-    MatRow,
-    MatHeaderRow,
-    MatRowDef,
-    MatTable,/*
-    MatButton,
-    MatDateRangePicker,
-    MatDatepickerToggle,
-    MatSuffix,
-    MatStartDate,
-    MatEndDate,
-    MatDateRangeInput,*/
     MatLabel,
     MatFormField,
+    InventoryListComponent,
+    MatButton,
     FormsModule,
     MatInput,
-    MatHeaderRowDef,
-    NgClass
+    NgIf,
+    OrderProductFormComponent
   ],
   templateUrl: './inventory.component.html',
   standalone: true,
@@ -52,30 +28,17 @@ export class InventoryComponent implements OnInit {
   products: InventoryProduct[] = [];
   filteredProducts: InventoryProduct[] = [];
   filterCode: string = '';
-  dateRange: { start: Date | null; end: Date | null } = { start: null, end: null };
-  displayedColumns: string[] = ['code', 'name', 'stock', 'purchaseDate', 'stockLevel'];
+  makeInventory!: boolean;
 
   ngOnInit(): void {
     // Simulación de productos (en producción, esto vendría de un servicio)
     this.products = [
-      { code: 'MED001', name: 'Paracetamol', stock: 20, purchaseDate: new Date('2025-08-01') },
-      { code: 'MED002', name: 'Ibuprofeno', stock: 15, purchaseDate: new Date('2025-08-10') },
-      { code: 'MED003', name: 'Amoxicilina', stock: 5, purchaseDate: new Date('2025-07-15') },
-      { code: 'ME003', name: 'Amoxicilina', stock: 5, purchaseDate: new Date('2025-07-15') },
+      { id: 1, code: 'MED001', name: 'Paracetamol', stock: 20, purchaseDate: new Date('2025-08-01'), price: 10 },
+      { id: 2, code: 'MED002', name: 'Ibuprofeno', stock: 15, purchaseDate: new Date('2025-08-10'), price: 8 },
+      { id: 3, code: 'MED003', name: 'Amoxicilina', stock: 5, purchaseDate: new Date('2025-07-15'), price: 20 },
+      { id: 4, code: 'ME003', name: 'Amoxicilina', stock: 5, purchaseDate: new Date('2025-07-15'), price: 15 },
     ];
     this.filteredProducts = this.products;
-  }
-
-  applyRangeDateFilter(): void {
-    this.filteredProducts = this.products.filter(product => {
-      const startDate = this.dateRange.start;
-      const endDate = this.dateRange.end;
-      const purchaseDate = new Date(product.purchaseDate);
-
-      return startDate && endDate
-        ? purchaseDate >= startDate && purchaseDate <= endDate
-        : true;
-    });
   }
 
   applyCodeFilter() {
@@ -84,23 +47,8 @@ export class InventoryComponent implements OnInit {
     })
   }
 
-  clearFilters(): void {
-    this.filterCode = '';
-    this.dateRange = { start: null, end: null };
-    this.filteredProducts = this.products;
+  purchaseOrder() {
+    this.makeInventory = !this.makeInventory;
   }
 
-  getStockLevelText(stock: number): string {
-    if (stock === 0) return 'Sin stock';
-    if (stock <= 5) return 'Bajo';
-    if (stock <= 10) return 'Escaso';
-    return 'Abundante';
-  }
-
-  getStockLevelClass(stock: number): string {
-    if (stock === 0) return 'stock-none';
-    if (stock <= 5) return 'stock-low';
-    if (stock <= 10) return 'stock-medium';
-    return 'stock-high';
-  }
 }

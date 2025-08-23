@@ -27,3 +27,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   align-items: center;
 }
 
+.flex-justify-center {
+  display: flex;
+  justify-content: center
+}
+
+.margin-2px {
+  margin: 2px;
+}
+
