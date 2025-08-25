@@ -49,6 +49,11 @@
       <input matInput type="number" formControlName="price" />
     </mat-form-field>
 
+    <mat-form-field appearance="outline" >
+      <mat-label>Precio de Venta</mat-label>
+      <input matInput type="number" formControlName="salePrice" />
+    </mat-form-field>
+
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Descripción</mat-label>
       <textarea matInput formControlName="description" rows="3"></textarea>
@@ -56,7 +61,7 @@
 
     <mat-card-actions class="flex-row">
       <button mat-raised-button color="primary" type="button" (click)="goBack.emit()" class="button-action">Cancelar</button>
-      <button mat-flat-button color="primary" type="submit" [disabled]="productForm.invalid && !productSaved()" class="button-action">Guardar</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="(productForm.invalid && !productSaved()) || isSaving" class="button-action">Guardar</button>
     </mat-card-actions>
   </form>
 </div>

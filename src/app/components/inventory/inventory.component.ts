@@ -65,7 +65,7 @@ export class InventoryComponent implements OnInit {
   buysProducts(data: OrderRequestData) {
     this.savingOrder.set(true);
     this.orderProductController.buysProducts(data).pipe(tap({
-      next: (value) => this.savingOrder.update(value1 => !value1),
+      next: () => this.savingOrder.update(value1 => !value1),
       error: () => this.savingOrder.update(value => !value)
     })).subscribe();
   }

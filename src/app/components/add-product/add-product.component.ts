@@ -1,4 +1,4 @@
-import {Component, inject, input, OnDestroy, OnInit, output, signal} from '@angular/core';
+import {Component, inject, Input, input, OnDestroy, OnInit, output, signal} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatSelect} from '@angular/material/select';
 import {MatOption} from '@angular/material/core';
@@ -34,12 +34,13 @@ import {iif, of, switchMap, tap} from 'rxjs';
   styleUrl: './add-product.component.css'
 })
 export class AddProductComponent implements OnInit, OnDestroy {
+  @Input() isSaving!: boolean;
   productForm!: FormGroup;
 
   laboratories = signal<Laboratory[]>([]); //['Bayer', 'Pfizer', 'Novartis', 'Roche'];
   categories = signal<Category[]>([]); //['Analgésico', 'Antibiótico', 'Antigripal', 'Vitaminas'];
   goBack = output<void>();
-  productSaved = input<boolean>(false);
+  productSaved = input<boolean>(true);
   emitProductToSave = output<Product>();
   readonly dialog = inject(MatDialog);
   productToEdit = input<Product>();
@@ -61,6 +62,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
       productWeight: [this.productToEdit()?.productWeight ?? '', [Validators.required, Validators.pattern(/^\d+(\.\d{1,9})?$/)]],
       iva: [this.productToEdit()?.iva ?? '', [Validators.required, Validators.min(0), Validators.max(100)]],
       price: [this.productToEdit()?.price ?? '', [Validators.required, Validators.min(0)]],
+      salePrice: [this.productToEdit()?.salePrice ?? '', [Validators.required, Validators.min(0)]],
     });
   }
 
@@ -73,6 +75,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   saveProduct() {
+    this.isSaving = true;
     if (this.productForm.valid) {
       const productToSave: Product = this.productForm.value;
       if(this.productToEdit()?.id) productToSave.id = this.productToEdit()?.id;

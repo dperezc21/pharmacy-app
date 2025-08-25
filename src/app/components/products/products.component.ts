@@ -25,6 +25,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   productSaved = signal<boolean>(false);
   productToEdit = signal<Product | undefined>(undefined);
   private dialog = inject(MatDialog);
+  savingProduct = signal<boolean>(false);
 
   constructor(private productController: ProductController) {}
 
@@ -34,15 +35,19 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   displayFormAddProduct() {
       this.showFormAddProduct.update(value => !value);
+      this.productToEdit.set(undefined);
   }
 
   saveProduct(product: Product) {
+    this.savingProduct.set(true);
     this.productController.saveOrEditProduct(product)
       .pipe(tap(value => {
         if(value) {
           this.displayFormAddProduct();
           this.productSaved.set(value)
         }
+      }), tap({
+        complete: () => this.savingProduct.set(false)
       }))
       .subscribe();
   }
