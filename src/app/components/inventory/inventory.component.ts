@@ -33,7 +33,7 @@ export class InventoryComponent implements OnInit {
   productsInventory!: InventoryProduct[];
   filteredProducts: InventoryProduct[] = [];
   filterCode: string = '';
-  makeInventory!: boolean;
+  makeInventory =signal<boolean>(false);
   savingOrder =signal<boolean>(false);
 
   constructor(private orderProductController: OrderProductController,
@@ -59,14 +59,14 @@ export class InventoryComponent implements OnInit {
   }
 
   purchaseOrder() {
-    this.makeInventory = !this.makeInventory;
+    this.makeInventory.update(value => !value);
   }
 
   buysProducts(data: OrderRequestData) {
     this.savingOrder.set(true);
     this.orderProductController.buysProducts(data).pipe(tap({
-      next: (value) => this.savingOrder.set(value),
-      error: () => this.savingOrder.set(false)
+      next: (value) => this.savingOrder.update(value1 => !value1),
+      error: () => this.savingOrder.update(value => !value)
     })).subscribe();
   }
 

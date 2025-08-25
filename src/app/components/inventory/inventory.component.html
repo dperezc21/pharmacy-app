@@ -1,20 +1,20 @@
 <div class="inventory-container">
-  <div *ngIf="!makeInventory" class="buttons-actions-inventory">
+  <div *ngIf="!makeInventory()" class="buttons-actions-inventory">
     <mat-form-field appearance="outline" class="margin-2px">
       <mat-label>Código del medicamento</mat-label>
       <input matInput [(ngModel)]="filterCode" (input)="applyCodeFilter()">
     </mat-form-field>
 
-    <button mat-flat-button color="primary" (click)="purchaseOrder()">Abastecer Inventario</button>
+    <button mat-flat-button color="primary" type="button" (click)="purchaseOrder()">Abastecer Inventario</button>
   </div>
 
-  <app-inventory-list *ngIf="!makeInventory" [products]="filteredProducts"></app-inventory-list>
+  <app-inventory-list *ngIf="!makeInventory()" [products]="filteredProducts"></app-inventory-list>
 
-  <div *ngIf="makeInventory">
+  <div *ngIf="makeInventory()">
     <h2 class="flex-justify-center">Abastecer Inventario</h2>
     <app-order-product-form [products]="products"
                             [enableButtonCancel]="true"
                             (goBack)="purchaseOrder()"
-                            [saving]="savingOrder()" (sendOrderData)="buysProducts($event)"></app-order-product-form>
+                            [savingOrderProduct]="savingOrder()" (sendOrderData)="buysProducts($event)"></app-order-product-form>
   </div>
 </div>

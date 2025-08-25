@@ -45,7 +45,7 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
   orderForm!: FormGroup;
   totalPrice: number = 0;
   enableButtonCancel = input<boolean>(false);
-  @Input() saving!: boolean;
+  @Input() savingOrderProduct!: boolean;
 
   constructor(private fb: FormBuilder, private orderProduct: OrderProductController) {}
 
@@ -69,7 +69,7 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
   }
 
   sendRequest() {
-    this.saving = true;
+    this.savingOrderProduct = true;
     if (this.orderForm.valid) {
       const formData = this.orderForm.value;
       const orderProducts: OrderProduct[] = formData.products.map((productForm: OrderProductForm) => {
@@ -115,8 +115,10 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const saving: boolean = changes["saving"]?.currentValue;
-    if(!saving && this.enableButtonCancel() && this.orderProduct.orderIsDone()()) this.goBack.emit();
-    else if(!saving && this.orderProduct.orderIsDone()()) this.orderForm?.reset();
+    const savingOrderProduct: boolean = changes["savingOrderProduct"]?.currentValue;
+    const orderIsSaved: boolean = this.orderProduct.orderIsDone()();
+      if(!savingOrderProduct && this.enableButtonCancel() && orderIsSaved) this.goBack.emit();
+    else if(!savingOrderProduct && orderIsSaved) this.orderForm?.reset();
+    if(orderIsSaved) this.orderProduct.changeOrderIsDone();
   }
 }

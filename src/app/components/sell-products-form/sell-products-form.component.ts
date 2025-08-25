@@ -28,8 +28,8 @@ export class SellProductsFormComponent implements OnInit {
   sellProduct(data: OrderRequestData) {
     this.savingOrder.set(true);
     this.orderProductController.sellProducts(data).pipe(tap({
-      next: (value) => this.savingOrder.set(value),
-      error: () => this.savingOrder.set(false)
+      next: () => this.savingOrder.update(value => !value),
+      error: () => this.savingOrder.update(value => !value)
     })).subscribe();
   }
 
