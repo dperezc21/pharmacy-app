@@ -7,10 +7,12 @@ import {InventoryProduct, Product} from '../../models/product.model';
 import {InventoryListComponent} from '../inventory-list/inventory-list.component';
 import {MatButton} from '@angular/material/button';
 import {OrderProductFormComponent} from '../order-product-form/order-product-form.component';
-import {OrderRequestData} from '../../models/order-product.model';
+import {OrderProduct, OrderRequestData} from '../../models/order-product.model';
 import {tap} from 'rxjs';
 import {OrderProductController} from '../../controllers/order-product.controller';
 import {ProductController} from '../../controllers/product.controller';
+import {InventoryController} from '../../controllers/Inventory.controller';
+import {InventoryModel} from '../../models/inventory.model';
 
 @Component({
   selector: 'app-inventory',
@@ -35,20 +37,19 @@ export class InventoryComponent implements OnInit {
   filterCode: string = '';
   makeInventory =signal<boolean>(false);
   savingOrder =signal<boolean>(false);
+  inventory = signal<InventoryModel[]>([]);
 
   constructor(private orderProductController: OrderProductController,
-              private productController: ProductController) {
+              private productController: ProductController,
+              private inventoryController: InventoryController) {
   }
 
   ngOnInit(): void {
-    // Simulación de productos (en producción, esto vendría de un servicio)
     this.products = this.productController.productsGot()();
-    this.productsInventory = [
-      { id: 1, code: 'MED001', name: 'Paracetamol', stock: 20, purchaseDate: new Date('2025-08-01'), price: 10 },
-      { id: 2, code: 'MED002', name: 'Ibuprofeno', stock: 15, purchaseDate: new Date('2025-08-10'), price: 8 },
-      { id: 3, code: 'MED003', name: 'Amoxicilina', stock: 5, purchaseDate: new Date('2025-07-15'), price: 20 },
-      { id: 4, code: 'ME003', name: 'Amoxicilina', stock: 5, purchaseDate: new Date('2025-07-15'), price: 15 },
-    ];
+    this.inventory = this.inventoryController.inventoryListGot();
+    this.productsInventory = this.inventory().map(value => {
+      const product: Product = value.product as Product;
+      return this.inventoryController.mapToInventoryProduct(product, value)}) as InventoryProduct[];
     this.filteredProducts = this.productsInventory;
   }
 
@@ -65,9 +66,24 @@ export class InventoryComponent implements OnInit {
   buysProducts(data: OrderRequestData) {
     this.savingOrder.set(true);
     this.orderProductController.buysProducts(data).pipe(tap({
-      next: () => this.savingOrder.update(value1 => !value1),
+      next: () => {
+        this.savingOrder.update(value1 => !value1)
+        this.updateProductsInventory(data);
+      },
       error: () => this.savingOrder.update(value => !value)
     })).subscribe();
+  }
+
+  updateProductsInventory({date, orderItems }: OrderRequestData) {
+    const data: InventoryProduct[] = orderItems.map((orderProduct: OrderProduct) => {
+      const findProduct: Product = this.products.find(product => product.id === orderProduct.productId) as Product;
+      const inventoryModel: InventoryModel = {inventoryId: 0, date, quantity: orderProduct.quantity} as InventoryModel;
+      return this.inventoryController.mapToInventoryProduct(findProduct, inventoryModel)
+    });
+    this.filteredProducts = this.productsInventory.map(value => {
+      const inventoryProduct: InventoryProduct = data.find(value1 => value1.code == value.code) as InventoryProduct;
+      return inventoryProduct?.code ? { ...value, stock: (value.stock + inventoryProduct.stock) } : value;
+    });
   }
 
 }
