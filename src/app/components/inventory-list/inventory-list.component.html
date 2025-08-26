@@ -21,7 +21,7 @@
   <!-- Fecha de Compra -->
   <ng-container matColumnDef="purchaseDate">
     <th mat-header-cell *matHeaderCellDef> Fecha de Compra </th>
-    <td mat-cell *matCellDef="let product"> {{product.purchaseDate | date}} </td>
+    <td mat-cell *matCellDef="let product"> {{product?.purchaseDate ? (product.purchaseDate | date) : 'No hay Fecha'}} </td>
   </ng-container>
 
   <!-- Nivel de Stock -->
