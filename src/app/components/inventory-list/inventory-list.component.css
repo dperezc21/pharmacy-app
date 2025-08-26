@@ -1,0 +1,27 @@
+.stock-none {
+  background-color: #ff4d4d; /* rojo fuerte - sin stock */
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.stock-low {
+  background-color: #ffcc00; /* amarillo - stock bajo */
+  color: black;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.stock-medium {
+  background-color: #66cc66; /* verde medio - stock medio */
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.stock-high {
+  background-color: #009900; /* verde fuerte - stock alto */
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
