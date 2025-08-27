@@ -1,3 +1,4 @@
+import {Category, Laboratory} from './ApplicationValue';
 
 export interface Product {
   id?: number;
@@ -5,9 +6,9 @@ export interface Product {
   name: string;
   price: number;
   description: string;
-  category: string;
+  category: Category;
   productWeight: number;
-  laboratory: string;
+  laboratory: Laboratory;
   iva: number;
   salePrice: number;
 }

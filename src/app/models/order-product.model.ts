@@ -1,11 +1,10 @@
 
-export interface OrderProductForm {
+export interface OrderProduct {
   productId: number;
+  name?: string;
   quantity: number;
-}
-
-export interface OrderProduct extends OrderProductForm {
   unitPrice: number;
+  subTotal: number;
 }
 
 export interface OrderRequestData {

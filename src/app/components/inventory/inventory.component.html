@@ -11,7 +11,7 @@
   <app-inventory-list *ngIf="!makeInventory()" [products]="filteredProducts"></app-inventory-list>
 
   <div *ngIf="makeInventory()">
-    <h2 class="flex-justify-center">Abastecer Inventario</h2>
+    <h2 class="flex-justify-center margin-2px">Abastecer Inventario</h2>
     <app-order-product-form [products]="products"
                             [enableButtonCancel]="true"
                             (goBack)="purchaseOrder()"

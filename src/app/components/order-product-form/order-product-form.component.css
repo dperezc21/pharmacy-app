@@ -1,48 +1,69 @@
-.order-product-form {
+.container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 1px;
+  gap: 20px;
+  padding: 20px;
+  min-height: 70%;
 }
 
-.width-65 {
-  width: 65%;
-}
-
-.header-buttons {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.full-width {
-  width: 100%;
-}
-
-.product-item {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.product-select, .product-quantity {
+.left-panel {
   flex: 1;
+  max-width: 400px;
 }
 
-.total-display {
+.right-panel {
+  flex: 1;
+  max-width: 900px;
+}
+
+.width-80 {
+  width: 85%;
+}
+
+.quantity-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.products-table th, .products-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.products-table th {
+  background-color: #f2f2f2;
+  text-align: center;
+}
+
+.total {
   margin-top: 20px;
-  font-size: 18px;
-  font-weight: bold;
-  margin-right: 30px;
-  margin-bottom: 20px;
+  font-size: 1.2em;
+  text-align: right;
 }
 
 .buttons-action-container {
   display:flex;
   flex-direction: row;
   justify-content: flex-end;
-  margin-top: 20px;
 }
 
+.margin-top-5 {
+  margin-top: 5px;
+}
 
+.scrollable-tbody {
+  max-height: 400px; /* ajusta según necesites */
+  overflow-y: auto;
+}
+
+.scrollable-tbody table {
+  width: 100%;
+  border-collapse: collapse;
+}
