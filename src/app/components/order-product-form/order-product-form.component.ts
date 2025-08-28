@@ -81,12 +81,13 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
         const {name, ...orderProduct}: OrderProduct = productForm;
         return orderProduct;
       }) as OrderProduct[];
-      /*this.sendOrderData.emit({
+
+      this.sendOrderData.emit({
         orderItems: orderProducts,
         total: this.totalPrice,
         date: formData.date,
         observations: formData?.observations ?? ''
-      });*/
+      });
     }
   }
 
@@ -115,7 +116,7 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
       const productList: Product[] = this.products().filter(value1 => value1.code === value
                                                         || value1.name.toLowerCase().includes(value.toLowerCase()));
       if(productList?.length) {
-        this.productsFiltered.update(value1 => productList);
+        this.productsFiltered.update(() => productList);
         this.viewSelectProduct.open();
       }
     })).subscribe();
@@ -130,7 +131,11 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
     const savingOrderProduct: boolean = changes["savingOrderProduct"]?.currentValue;
     const orderIsSaved: boolean = this.orderProduct.orderIsDone()();
       if(!savingOrderProduct && this.enableButtonCancel() && orderIsSaved) this.goBack.emit();
-    else if(!savingOrderProduct && orderIsSaved) this.orderForm?.reset();
+    else if(!savingOrderProduct && orderIsSaved) {
+      this.resetValuesAfterAddProduct();
+      this.productsFormArray.clear();
+      this.totalPrice = 0;
+    }
     if(orderIsSaved) this.orderProduct.changeOrderIsDone();
   }
 
