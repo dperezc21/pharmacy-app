@@ -18,13 +18,16 @@
       <mat-form-field appearance="outline">
         <mat-label>Cantidad</mat-label>
         <input matInput type="number" min="1" formControlName="quantity">
+        <mat-error *ngIf="this.orderForm.get('quantity')?.errors?.['stockExceeded']">
+          Stock en inventario: {{this.orderForm.get('quantity')?.errors?.['stockExceeded']['currentStock']}}
+        </mat-error>
       </mat-form-field>
 
       <button mat-raised-button color="primary" type="button"
-              [disabled]="!orderForm.get('quantity')?.value"
+              [disabled]="orderForm.get('quantity')?.invalid"
               (click)="addProductToList()">Añadir a lista</button>
     </div>
-    <mat-form-field appearance="outline" class="width-80">
+    <mat-form-field appearance="outline" class="width-80 margin-top-5">
       <mat-label>Observaciones</mat-label>
       <textarea matInput formControlName="observations" rows="3"></textarea>
     </mat-form-field>

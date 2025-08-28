@@ -33,6 +33,6 @@ export const routes: Routes = [
   {
     path: "sale",
     component: SellProductsFormComponent,
-    resolve: { getAllProducts: getProductsResolver }
+    resolve: { getAllProducts: getProductsResolver, getInventory: GetInventoryResolver }
   }
 ];

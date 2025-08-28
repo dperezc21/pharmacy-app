@@ -9,7 +9,7 @@ import {
   Validators
 } from '@angular/forms';
 import {tap} from 'rxjs';
-import {MatFormField} from '@angular/material/form-field';
+import {MatError, MatFormField} from '@angular/material/form-field';
 import {MatInput, MatLabel} from '@angular/material/input';
 import {MatSelect} from '@angular/material/select';
 import {MatOption} from '@angular/material/core';
@@ -19,6 +19,7 @@ import {Product} from '../../models/product.model';
 import {OrderProduct, OrderRequestData} from '../../models/order-product.model';
 import {OrderProductController} from '../../controllers/order-product.controller';
 import {MatTooltip} from '@angular/material/tooltip';
+import {InventoryModel} from '../../models/inventory.model';
 
 @Component({
   selector: 'app-order-product-form',
@@ -33,7 +34,8 @@ import {MatTooltip} from '@angular/material/tooltip';
     FormsModule,
     MatButton,
     MatLabel,
-    MatTooltip
+    MatTooltip,
+    MatError
   ],
   templateUrl: './order-product-form.component.html',
   standalone: true,
@@ -42,6 +44,7 @@ import {MatTooltip} from '@angular/material/tooltip';
 export class OrderProductFormComponent implements OnInit, OnChanges {
   @ViewChild('selectProduct') viewSelectProduct!: MatSelect;
   products = input<Product[]>([]);
+  inventoryProduct = input<InventoryModel[]>([]);
   sendOrderData = output<OrderRequestData>();
   goBack = output();
   orderForm!: FormGroup;
@@ -95,6 +98,23 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (control instanceof FormArray && control.length < min) {
         return { minLengthArray: { requiredLength: min, actualLength: control.length } };
+      }
+      return null;
+    };
+  }
+
+  productQuantityValid()  {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const productCode: string = this.orderForm.get('selectProduct')?.value as string;
+      const inventoryModel: InventoryModel = this.inventoryProduct().find(value => value.product?.code == productCode) as InventoryModel;
+      if(this.enableButtonCancel()) return null;
+      if(inventoryModel?.quantity < control?.value) {
+        return {
+          stockExceeded: {
+            currentStock: inventoryModel.quantity,
+            stockSelected: control?.value
+          }
+        };
       }
       return null;
     };
@@ -169,6 +189,7 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
   }
 
   private addQuantityControlRequired() {
-    this.orderForm.controls['quantity'].addValidators([Validators.pattern('^[0-9]*$'), Validators.min(1)]);
+    this.orderForm.controls['quantity'].addValidators(
+      [Validators.pattern('^[0-9]*$'), Validators.min(1), this.productQuantityValid()]);
   }
 }

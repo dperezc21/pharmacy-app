@@ -20,5 +20,4 @@ export interface InventoryProduct {
   stock: number;
   purchaseDate: Date;
   price: number;
-  quantity?: number;
 }
