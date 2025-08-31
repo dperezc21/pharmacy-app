@@ -65,9 +65,9 @@ export class AddProductComponent implements OnInit, OnDestroy {
       category: new FormControl( this.productToEdit()?.category ?? '', [Validators.required]),
       description: new FormControl( this.productToEdit()?.description ?? ''),
       presentation: new FormControl(this.productToEdit()?.presentation ?? '', [Validators.required, Validators.minLength(0), Validators.maxLength(100)]),
-      packagePrice: new FormControl( this.productToEdit()?.packageSalePrice ?? '', [Validators.required, Validators.min(0)]),
+      packagePrice: new FormControl( this.productToEdit()?.packageSalePrice ?? 0, [Validators.min(0)]),
       salePrice: new FormControl( this.productToEdit()?.salePrice ?? '', [Validators.required, Validators.min(0)]),
-      isPackage: new FormControl( this.productToEdit()?.isPackage ?? '', [Validators.required, Validators.min(0)]),
+      isPackage: new FormControl( this.productToEdit()?.isPackage ?? ''),
     });
   }
 
