@@ -16,7 +16,11 @@ export class ProductController extends DestroySubject {
 
   getAllProducts(): Observable<Product[]> {
     return this.productService.getAllProducts()
-      .pipe(takeUntil(this.destroy$), tap({
+      .pipe(takeUntil(this.destroy$),
+        map(value => {
+          return value.map(value => {return {...value, isPackage: !!value?.packageSalePrice}});
+        }),
+        tap({
         next: (products: Product[]) => this.productList.set(products)
       }));
   }

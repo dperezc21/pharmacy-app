@@ -1,6 +1,6 @@
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* 2 columnas */
+  grid-template-columns: 1fr 1fr 1fr; /* 2 columnas */
   gap: 16px;
   max-width: 800px;
   margin: 0 auto;
@@ -8,6 +8,10 @@
 
 .full-width {
   grid-column: span 3;
+}
+
+.grid-column-span-2 {
+  grid-column: span 2;
 }
 
 .flex-row {

@@ -163,13 +163,13 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
     const productCode: string = this.orderForm.get('selectProduct')?.value as string;
     const findProduct: Product = this.products().find(value => value.code === productCode) as Product;
     const quantity: number = this.orderForm.get('quantity')?.value as number;
-    const subTotal: number = findProduct.price * quantity;
+    const subTotal: number = findProduct.packageSalePrice * quantity;
     const productToAdd = this.buildItemProduct({
       name: findProduct.name,
       productId: findProduct.id as number,
       quantity: quantity,
       subTotal,
-      unitPrice: findProduct.price
+      unitPrice: findProduct.packageSalePrice
     });
     this.productsFormArray.push(productToAdd);
     this.totalPrice += subTotal;

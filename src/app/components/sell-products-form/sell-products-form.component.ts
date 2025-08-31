@@ -41,7 +41,7 @@ export class SellProductsFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.products = this.productController.productsGot()().map(value => {
-      return {...value, price: value.salePrice }
+      return {...value, packageSalePrice: value.salePrice }
     });
     this.inventory.set(this.inventoryController.inventoryListGot()());
   }

@@ -10,7 +10,7 @@
       <mat-label>Seleccionar producto</mat-label>
       <mat-select formControlName="selectProduct" #selectProduct>
         <mat-option *ngFor="let producto of productsFiltered()" [value]="producto.code">
-          {{ producto.code }} - {{ producto.name }} {{ producto.productWeight }}, {{ producto.laboratory.name }}
+          {{ producto.code }} - {{ producto.name }} {{ producto.presentation }}, {{ producto.laboratory.name }}
         </mat-option>
       </mat-select>
     </mat-form-field>

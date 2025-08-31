@@ -4,13 +4,13 @@ export interface Product {
   id?: number;
   code: string;
   name: string;
-  price: number;
+  packageSalePrice: number;
   description: string;
   category: Category;
-  productWeight: number;
   laboratory: Laboratory;
-  iva: number;
+  presentation: string;
   salePrice: number;
+  isPackage?: boolean;
 }
 
 export interface InventoryProduct {

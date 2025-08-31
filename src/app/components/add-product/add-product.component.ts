@@ -1,5 +1,5 @@
 import {Component, inject, Input, input, OnDestroy, OnInit, output, signal} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatSelect} from '@angular/material/select';
 import {MatOption} from '@angular/material/core';
 import {MatFormField} from '@angular/material/form-field';
@@ -15,6 +15,8 @@ import {LaboratoryController} from '../../controllers/laboratory.controller';
 import {CategoryController} from '../../controllers/category.controller';
 import {Category, Laboratory} from '../../models/ApplicationValue';
 import {iif, of, switchMap, tap} from 'rxjs';
+import {NgIf} from '@angular/common';
+import {MatCheckbox} from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-add-product',
@@ -27,7 +29,9 @@ import {iif, of, switchMap, tap} from 'rxjs';
     MatInput,
     MatButton,
     MatCardActions,
-    MatIcon
+    MatIcon,
+    MatCheckbox,
+    NgIf
   ],
   templateUrl: './add-product.component.html',
   standalone: true,
@@ -39,6 +43,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   laboratories = signal<Laboratory[]>([]); //['Bayer', 'Pfizer', 'Novartis', 'Roche'];
   categories = signal<Category[]>([]); //['Analgésico', 'Antibiótico', 'Antigripal', 'Vitaminas'];
+
   goBack = output<void>();
   productSaved = input<boolean>(true);
   emitProductToSave = output<Product>();
@@ -55,15 +60,19 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
     this.productForm = this.fb.group({
       code: [this.productToEdit()?.code ?? '', Validators.required],
-      name: [this.productToEdit()?.name ?? '', Validators.required],
-      laboratory: [this.productToEdit()?.laboratory ?? '', Validators.required],
-      category: [this.productToEdit()?.category ?? '', Validators.required],
-      description: [this.productToEdit()?.description ?? ''],
-      productWeight: [this.productToEdit()?.productWeight ?? '', [Validators.required, Validators.pattern(/^\d+(\.\d{1,9})?$/)]],
-      iva: [this.productToEdit()?.iva ?? '', [Validators.required, Validators.min(0), Validators.max(100)]],
-      price: [this.productToEdit()?.price ?? '', [Validators.required, Validators.min(0)]],
-      salePrice: [this.productToEdit()?.salePrice ?? '', [Validators.required, Validators.min(0)]],
+      name: new FormControl( this.productToEdit()?.name ?? '', [Validators.required]),
+      laboratory: new FormControl(this.productToEdit()?.laboratory ?? '', [Validators.required]),
+      category: new FormControl( this.productToEdit()?.category ?? '', [Validators.required]),
+      description: new FormControl( this.productToEdit()?.description ?? ''),
+      presentation: new FormControl(this.productToEdit()?.presentation ?? '', [Validators.required, Validators.minLength(0), Validators.maxLength(100)]),
+      packagePrice: new FormControl( this.productToEdit()?.packageSalePrice ?? '', [Validators.required, Validators.min(0)]),
+      salePrice: new FormControl( this.productToEdit()?.salePrice ?? '', [Validators.required, Validators.min(0)]),
+      isPackage: new FormControl( this.productToEdit()?.isPackage ?? '', [Validators.required, Validators.min(0)]),
     });
+  }
+
+  inputCodeIsValid(): boolean {
+    return this.productForm.get('code')?.valid as boolean;
   }
 
   compareCategories(o1: Category, o2: Category): boolean {
@@ -77,7 +86,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   saveProduct() {
     this.isSaving = true;
     if (this.productForm.valid) {
-      const productToSave: Product = this.productForm.value;
+      const {isPackage, ...productToSave}: Product = this.productForm.value;
       if(this.productToEdit()?.id) productToSave.id = this.productToEdit()?.id;
       this.emitProductToSave.emit(productToSave);
     } else {
