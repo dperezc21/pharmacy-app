@@ -6,6 +6,8 @@
   padding: 10px 30px;
   background-color: #1976d2;
   color: white;
+  position: fixed; top: 0; left: 0; width: 100%;
+  z-index: 2;
 }
 
 .logo-section {
@@ -28,6 +30,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  margin-right: 50px;
 }
 
 .nav-links a {
