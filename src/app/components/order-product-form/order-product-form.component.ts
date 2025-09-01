@@ -132,7 +132,8 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
       selectProduct: new FormControl(''),
       searchProduct: new FormControl(''),
       quantity: new FormControl(1),
-      option: new FormControl(1)
+      option: new FormControl(1),
+      buyPrice: new FormControl(0, [Validators.min(0)])
     });
 
     this.orderForm.get('searchProduct')?.valueChanges.pipe(tap(value => {
@@ -169,6 +170,10 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
     let quantity: number = this.orderForm.get('quantity')?.value as number;
     const optionSelected: number = this.orderForm.get('option')?.value as number;
     const isOptionTow: boolean = optionSelected == 2;
+    if(this.enableButtonCancel()) {
+      findProduct.packageSalePrice = this.orderForm.get('buyPrice')?.value as number;
+      findProduct.salePrice = this.orderForm.get('buyPrice')?.value as number;
+    }
     const subTotal = isOptionTow && findProduct.packageSalePrice != 0
                               ? findProduct.packageSalePrice * quantity
                               : findProduct.salePrice * quantity;

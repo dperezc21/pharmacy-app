@@ -30,8 +30,7 @@ import {MatCheckbox} from '@angular/material/checkbox';
     MatButton,
     MatCardActions,
     MatIcon,
-    MatCheckbox,
-    NgIf
+    MatCheckbox
   ],
   templateUrl: './add-product.component.html',
   standalone: true,

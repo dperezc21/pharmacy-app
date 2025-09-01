@@ -15,22 +15,30 @@
       </mat-select>
     </mat-form-field>
     <div *ngIf="orderForm.get('selectProduct')?.value" class="quantity-container">
-      <mat-radio-group formControlName="option">
+      <mat-radio-group formControlName="option" class="flex-row">
         <mat-radio-button [value]="1">Unidad</mat-radio-button>
         <mat-radio-button [value]="2">Por paquete</mat-radio-button>
       </mat-radio-group>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Cantidad</mat-label>
-        <input matInput type="number" min="1" formControlName="quantity">
-        <mat-error *ngIf="this.orderForm.get('quantity')?.errors?.['stockExceeded']">
-          Stock en inventario: {{this.orderForm.get('quantity')?.errors?.['stockExceeded']['currentStock']}}
-        </mat-error>
-      </mat-form-field>
+      <div>
 
-      <button mat-raised-button color="primary" type="button"
-              [disabled]="!orderForm.get('quantity')?.value"
-              (click)="addProductToList()">Añadir a lista</button>
+        <mat-form-field appearance="outline">
+          <mat-label>Cantidad</mat-label>
+          <input matInput type="number" min="1" formControlName="quantity">
+          <mat-error *ngIf="this.orderForm.get('quantity')?.errors?.['stockExceeded']">
+            Stock en inventario: {{this.orderForm.get('quantity')?.errors?.['stockExceeded']['currentStock']}}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngIf="enableButtonCancel()">
+          <mat-label>Precio de Compra</mat-label>
+          <input matInput type="number" formControlName="buyPrice">
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="button" class="margin-5-px"
+                [disabled]="!orderForm.get('quantity')?.value || (!orderForm.get('buyPrice')?.value && enableButtonCancel())"
+                (click)="addProductToList()">Añadir a lista</button>
+      </div>
     </div>
     <mat-form-field appearance="outline" class="width-80 margin-top-5">
       <mat-label>Observaciones</mat-label>
