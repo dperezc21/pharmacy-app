@@ -65,9 +65,10 @@ export class AddProductComponent implements OnInit, OnDestroy {
       category: new FormControl( this.productToEdit()?.category ?? '', [Validators.required]),
       description: new FormControl( this.productToEdit()?.description ?? ''),
       presentation: new FormControl(this.productToEdit()?.presentation ?? '', [Validators.required, Validators.minLength(0), Validators.maxLength(100)]),
-      packagePrice: new FormControl( this.productToEdit()?.packageSalePrice ?? 0, [Validators.min(0)]),
+      packageSalePrice: new FormControl( this.productToEdit()?.packageSalePrice ?? 0, [Validators.min(0)]),
       salePrice: new FormControl( this.productToEdit()?.salePrice ?? '', [Validators.required, Validators.min(0)]),
       isPackage: new FormControl( this.productToEdit()?.isPackage ?? ''),
+      packageUnit: new FormControl( this.productToEdit()?.packageUnit ?? 0, [Validators.min(0)]),
     });
   }
 
@@ -84,6 +85,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   saveProduct() {
+    console.log("EDIT", this.productToEdit())
     this.isSaving = true;
     if (this.productForm.valid) {
       const {isPackage, ...productToSave}: Product = this.productForm.value;

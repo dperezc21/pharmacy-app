@@ -46,10 +46,16 @@
 
     <mat-checkbox formControlName="isPackage">Por Paquete</mat-checkbox>
 
-    <mat-form-field appearance="outline" *ngIf="productForm.get('isPackage')?.value">
-      <mat-label>Precio de venta por paquete</mat-label>
-      <input matInput type="number" formControlName="packagePrice"/>
-    </mat-form-field>
+    @if (productForm.get('isPackage')?.value) {
+      <mat-form-field appearance="outline">
+        <mat-label>Unidades por paquete</mat-label>
+        <input matInput type="number" formControlName="packageUnit"/>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Precio de venta por paquete</mat-label>
+        <input matInput type="number" formControlName="packageSalePrice"/>
+      </mat-form-field>
+    }
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Descripción</mat-label>

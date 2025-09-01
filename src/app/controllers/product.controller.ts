@@ -33,7 +33,7 @@ export class ProductController extends DestroySubject {
     return this.productService.saveProduct(product)
             .pipe(take(1), map((value: Product) => {
               if(value?.id) {
-                this.setNewProduct(value);
+                this.setNewProduct({...value, isPackage: !!value?.packageSalePrice});
                 this.snackBarService.showMessage("Producto Guardado Correctamente");
               }
               return !!value?.id;
@@ -44,7 +44,7 @@ export class ProductController extends DestroySubject {
     return this.productService.editProduct(product)
       .pipe(take(1), map((value: Product) => {
         if(value?.id) {
-          this.updateProductEdited(value);
+          this.updateProductEdited({...value, isPackage: !!value?.packageSalePrice});
           this.snackBarService.showMessage("Producto Editado Correctamente");
         }
         return !!value?.id;

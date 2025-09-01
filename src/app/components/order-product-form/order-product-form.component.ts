@@ -20,6 +20,7 @@ import {OrderProduct, OrderRequestData} from '../../models/order-product.model';
 import {OrderProductController} from '../../controllers/order-product.controller';
 import {MatTooltip} from '@angular/material/tooltip';
 import {InventoryModel} from '../../models/inventory.model';
+import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 
 @Component({
   selector: 'app-order-product-form',
@@ -28,14 +29,16 @@ import {InventoryModel} from '../../models/inventory.model';
     MatFormField,
     MatSelect,
     MatOption,
-    NgIf,
     MatInput,
     NgForOf,
     FormsModule,
     MatButton,
     MatLabel,
     MatTooltip,
-    MatError
+    MatError,
+    MatRadioGroup,
+    MatRadioButton,
+    NgIf
   ],
   templateUrl: './order-product-form.component.html',
   standalone: true,
@@ -128,7 +131,8 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
       products: this.fb.array([], this.minLengthArray(1)),
       selectProduct: new FormControl(''),
       searchProduct: new FormControl(''),
-      quantity: new FormControl(1)
+      quantity: new FormControl(1),
+      option: new FormControl(1)
     });
 
     this.orderForm.get('searchProduct')?.valueChanges.pipe(tap(value => {
@@ -162,14 +166,20 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
   addProductToList() {
     const productCode: string = this.orderForm.get('selectProduct')?.value as string;
     const findProduct: Product = this.products().find(value => value.code === productCode) as Product;
-    const quantity: number = this.orderForm.get('quantity')?.value as number;
-    const subTotal: number = findProduct.packageSalePrice * quantity;
+    let quantity: number = this.orderForm.get('quantity')?.value as number;
+    const optionSelected: number = this.orderForm.get('option')?.value as number;
+    const isOptionTow: boolean = optionSelected == 2;
+    const subTotal = isOptionTow && findProduct.packageSalePrice != 0
+                              ? findProduct.packageSalePrice * quantity
+                              : findProduct.salePrice * quantity;
+    quantity = isOptionTow ? quantity * (findProduct?.packageUnit as number) : quantity;
+    const unitPrice: number = isOptionTow ? findProduct.packageSalePrice : findProduct.salePrice;
     const productToAdd = this.buildItemProduct({
       name: findProduct.name,
       productId: findProduct.id as number,
       quantity: quantity,
       subTotal,
-      unitPrice: findProduct.packageSalePrice
+      unitPrice
     });
     this.productsFormArray.push(productToAdd);
     this.totalPrice += subTotal;

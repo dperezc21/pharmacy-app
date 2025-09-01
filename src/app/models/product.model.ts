@@ -11,6 +11,7 @@ export interface Product {
   presentation: string;
   salePrice: number;
   isPackage?: boolean;
+  packageUnit?: number;
 }
 
 export interface InventoryProduct {

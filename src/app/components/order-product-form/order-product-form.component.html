@@ -15,6 +15,11 @@
       </mat-select>
     </mat-form-field>
     <div *ngIf="orderForm.get('selectProduct')?.value" class="quantity-container">
+      <mat-radio-group formControlName="option">
+        <mat-radio-button [value]="1">Unidad</mat-radio-button>
+        <mat-radio-button [value]="2">Por paquete</mat-radio-button>
+      </mat-radio-group>
+
       <mat-form-field appearance="outline">
         <mat-label>Cantidad</mat-label>
         <input matInput type="number" min="1" formControlName="quantity">
@@ -24,7 +29,7 @@
       </mat-form-field>
 
       <button mat-raised-button color="primary" type="button"
-              [disabled]="orderForm.get('quantity')?.invalid"
+              [disabled]="!orderForm.get('quantity')?.value"
               (click)="addProductToList()">Añadir a lista</button>
     </div>
     <mat-form-field appearance="outline" class="width-80 margin-top-5">
