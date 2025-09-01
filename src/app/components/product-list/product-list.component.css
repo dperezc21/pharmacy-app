@@ -16,3 +16,9 @@ table {
 mat-form-field {
   width: 250px;
 }
+
+.code-found {
+  color: #009900;
+  font-size: 17px;
+  font-weight: bold;
+}
