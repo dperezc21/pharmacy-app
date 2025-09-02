@@ -7,6 +7,7 @@ import {getProductsResolver} from './resolvers/get-products.resolver';
 import {GetCategoriesResolver} from './resolvers/get-categories.resolver';
 import {GetLaboratoriesResolver} from './resolvers/get-laboratories.resolver';
 import {GetInventoryResolver} from './resolvers/get-inventory-resolver.service';
+import {HistoryContainerComponent} from './components/historial/history-container/history-container.component';
 
 export const routes: Routes = [
   {
@@ -34,5 +35,9 @@ export const routes: Routes = [
     path: "sale",
     component: SellProductsFormComponent,
     resolve: { getAllProducts: getProductsResolver, getInventory: GetInventoryResolver }
+  },
+  {
+    path: "historial",
+    component: HistoryContainerComponent
   }
 ];

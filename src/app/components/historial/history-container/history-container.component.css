@@ -1,0 +1,14 @@
+.historial-container {
+  padding: 20px;
+
+  .button-group {
+    margin-bottom: 20px;
+    button {
+      margin-right: 10px;
+    }
+  }
+
+  .contenido {
+    margin-top: 10px;
+  }
+}
