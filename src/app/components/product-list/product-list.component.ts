@@ -13,14 +13,13 @@ import {
   MatTableDataSource
 } from '@angular/material/table';
 import {Product} from '../../models/product.model';
-import {MatFormField} from '@angular/material/form-field';
-import {MatButton} from '@angular/material/button';
+import {MatFormField, MatSuffix} from '@angular/material/form-field';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatInput, MatLabel} from '@angular/material/input';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {MatIcon} from '@angular/material/icon';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
 import {tap} from 'rxjs';
 
 @Component({
@@ -42,14 +41,13 @@ import {tap} from 'rxjs';
     MatLabel,
     MatMenu,
     MatMenuTrigger,
-    MatIcon, MatMenuItem, MatPaginator, ReactiveFormsModule],
+    MatIcon, MatMenuItem, MatPaginator, ReactiveFormsModule, MatIconButton, MatSuffix],
   templateUrl: './product-list.component.html',
   standalone: true,
   styleUrl: './product-list.component.css'
 })
 export class ProductListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
   addProduct = output();
   editProduct = output<Product>();
   deleteProduct = output<Product>();
@@ -68,18 +66,31 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     if(productFound?.id) this.dataSource = new MatTableDataSource<Product>([...[], productFound]);
   }
 
+  cleanDataFilter(): void {
+    this.codeForm?.setValue('');
+    this.dataSource = new MatTableDataSource<Product>(this.products());
+    this.setDataSourcePaginator();
+  }
+
+  get codeForm(): FormControl {
+    return this.formProductList?.get('code') as FormControl;
+  }
+
+  setDataSourcePaginator(): void {
+    this.dataSource.paginator = this.paginator;
+  }
+
   ngOnInit(): void {
     this.formProductList = new FormGroup({
       code: new FormControl('')
     });
     this.dataSource = new MatTableDataSource<Product>(this.products());
-    this.formProductList.get('code')?.valueChanges
+    this.codeForm?.valueChanges
       .pipe(tap(c => this.productByCode(c))).subscribe();
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.setDataSourcePaginator();
   }
 
 }

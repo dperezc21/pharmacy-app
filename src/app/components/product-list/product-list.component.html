@@ -6,7 +6,13 @@
     <mat-form-field appearance="outline" style="height: 40px">
       <mat-label>Buscar por código</mat-label>
       <input matInput type="text" formControlName="code"/>
+      @if (codeForm.value) {
+        <button matSuffix mat-icon-button aria-label="Clear" (click)="cleanDataFilter()">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
     </mat-form-field>
+
   </form>
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -14,7 +20,7 @@
     <!-- Código -->
     <ng-container matColumnDef="code">
       <th mat-header-cell *matHeaderCellDef> Código </th>
-      <td mat-cell *matCellDef="let element" class="{{ formProductList.get('code')?.value == element?.code ? 'code-found': '' }}">
+      <td mat-cell *matCellDef="let element" class="{{ codeForm.value == element?.code ? 'code-found': '' }}">
         {{element.code}}
       </td>
     </ng-container>
