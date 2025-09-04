@@ -9,11 +9,11 @@ import {
   Validators
 } from '@angular/forms';
 import {tap} from 'rxjs';
-import {MatError, MatFormField} from '@angular/material/form-field';
+import {MatError, MatFormField, MatSuffix} from '@angular/material/form-field';
 import {MatInput, MatLabel} from '@angular/material/input';
 import {MatSelect} from '@angular/material/select';
 import {MatOption} from '@angular/material/core';
-import {MatButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {NgForOf, NgIf} from '@angular/common';
 import {Product} from '../../models/product.model';
 import {OrderProduct, OrderRequestData} from '../../models/order-product.model';
@@ -21,6 +21,7 @@ import {OrderProductController} from '../../controllers/order-product.controller
 import {MatTooltip} from '@angular/material/tooltip';
 import {InventoryModel} from '../../models/inventory.model';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-order-product-form',
@@ -38,7 +39,10 @@ import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
     MatError,
     MatRadioGroup,
     MatRadioButton,
-    NgIf
+    NgIf,
+    MatIcon,
+    MatIconButton,
+    MatSuffix,
   ],
   templateUrl: './order-product-form.component.html',
   standalone: true,
@@ -206,5 +210,10 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
   private addQuantityControlRequired() {
     this.orderForm.controls['quantity'].addValidators(
       [Validators.pattern('^[0-9]*$'), Validators.min(1), this.productQuantityValid()]);
+  }
+
+  cleanDataFilter() {
+    this.orderForm.get('searchProduct')?.setValue('');
+    this.productsFiltered.set(this.products());
   }
 }
