@@ -3,10 +3,10 @@
   <p>Sistema de gestión de productos, pagos y control de inventario.</p>
 
   <div class="quick-links">
-    <a routerLink="/products" class="card">🧾 Ver Productos</a>
-    <a routerLink="/sale" class="card">💳 Realizar Venta</a>
-    <a routerLink="/inventory" class="card">📦 Inventario</a>
-    <a routerLink="/historial" class="card">📜 Historial</a>
+    <a [routerLink]="[{outlets: {home: ['products']}}]" class="card">🧾 Ver Productos</a>
+    <a [routerLink]="[{outlets: {home: ['page']}}]" class="card">💳 Realizar Venta</a>
+    <a [routerLink]="[{outlets: {home: ['inventory']}}]" class="card">📦 Inventario</a>
+    <a [routerLink]="[{outlets: {home: ['historial']}}]" class="card">📜 Historial</a>
   </div>
 </div>
 

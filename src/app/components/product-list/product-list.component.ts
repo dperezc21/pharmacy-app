@@ -21,6 +21,7 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {MatIcon} from '@angular/material/icon';
 import {MatPaginator} from '@angular/material/paginator';
 import {tap} from 'rxjs';
+import {LoginController} from '../../controllers/login.controller';
 
 @Component({
   selector: 'app-product-list',
@@ -57,6 +58,9 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   totalItems!: number;
   formProductList!: FormGroup;
 
+  constructor(protected loginController: LoginController) {
+  }
+
   productByCode(code: string = "") {
     if(!code?.trim()) {
       this.dataSource = new MatTableDataSource<Product>(this.products());
@@ -80,6 +84,9 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
+  userIsAdmin(): boolean {
+    return this.loginController.userAuthenticated()?.role === "admin";
+  }
   ngOnInit(): void {
     this.formProductList = new FormGroup({
       code: new FormControl('')

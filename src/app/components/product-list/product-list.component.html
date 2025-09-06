@@ -65,8 +65,9 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
+          {{!userIsAdmin()}}
           <button mat-menu-item (click)="editProduct.emit(element)">📝 Editar</button>
-          <button mat-menu-item (click)="deleteProduct.emit(element)">🗑️ Eliminar</button>
+          <button mat-menu-item [disabled]="!userIsAdmin()" (click)="deleteProduct.emit(element)">🗑️ Eliminar</button>
         </mat-menu>
       </td>
     </ng-container>
