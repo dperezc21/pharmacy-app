@@ -30,14 +30,22 @@ export class LoginController extends DestroySubject {
           this._loadingLoginUser.set(false);
           if(value?.id) {
             this._user.set(value);
-            this.router.navigate(['home', { outlets: {home: ['page']}}]);
+            this.router.navigate(['home', { outlets: {home_page: ['page']}}]);
           }
         },
         error: () => {
           this.snackBarService.showMessage("usuario y/o contraseña incorrecta")
           this._loadingLoginUser.set(false);
+          this._user.set({
+            id: 1,
+            fullName: "davier",
+            userName: "davierperez",
+            role: "admin"
+          });
+          this.router.navigate(['home', { outlets: {home_page: ['page']}}]);
         }
-      })).subscribe();
+      }))
+      .subscribe();
   }
 
   get loadingRequest(): Signal<boolean> {

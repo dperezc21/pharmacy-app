@@ -27,11 +27,6 @@
   margin-top: 10px;
 }
 
-.flex-row {
-  display:flex;
-  flex-direction: row;
-}
-
 .margin-5-px {
   margin: 5px;
 }
