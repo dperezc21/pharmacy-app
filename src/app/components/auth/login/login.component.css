@@ -1,0 +1,24 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.logo-app {
+  border-radius: 16px;
+  margin: 10px;
+}
+
+.card-header-login {
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  margin: 12px 0;
+}
+
+.container-login-form {
+  margin: 10px;
+  width: 350px;
+}
