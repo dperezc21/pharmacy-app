@@ -1,4 +1,4 @@
-import {Component, input, OnInit} from '@angular/core';
+import {Component, input, OnDestroy, OnInit} from '@angular/core';
 import {User} from '../../../models/user.models';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatHint, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
@@ -11,6 +11,7 @@ import {MatCardHeader} from '@angular/material/card';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatIcon} from '@angular/material/icon';
 import {UserRegisterController} from '../../../controllers/user-register.controller';
+import {tap} from 'rxjs';
 
 @Component({
   selector: 'app-user-form',
@@ -36,7 +37,7 @@ import {UserRegisterController} from '../../../controllers/user-register.control
   standalone: true,
   styleUrl: './user-form.component.css'
 })
-export class UserFormComponent implements OnInit {
+export class UserFormComponent implements OnInit, OnDestroy {
   userData = input<User | null>(null);
 
   userForm!: FormGroup;
@@ -60,14 +61,15 @@ export class UserFormComponent implements OnInit {
       this.userForm.get('password')?.setValidators([Validators.required, Validators.minLength(6)]);
       this.toggleEdit();
     }
-
-    console.log(this.userForm)
   }
 
   toggleEdit() {
     this.editMode = !this.editMode;
     if (this.editMode) this.userForm.enable();
-    else this.userForm.disable();
+    else {
+      this.togglePasswordField(false);
+      this.userForm.disable();
+    }
   }
 
   togglePasswordField(checked: boolean) {
@@ -98,7 +100,13 @@ export class UserFormComponent implements OnInit {
       if(this.userData()?.id) formValue.id = this.userData()?.id;
       formValue.role = formValue.role.toUpperCase();
       this.userRegisterController.saveOrUpdateUser(formValue)
-      // Aquí haces un POST o PUT al backend
+        .pipe(tap({
+          next: () => this.toggleEdit()
+        })).subscribe();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.userRegisterController.destroySubscriptions();
   }
 }

@@ -21,7 +21,7 @@
     </mat-form-field>
 
     <div class="password-section">
-      <mat-checkbox [disabled]="!editMode"
+      <mat-checkbox [disabled]="!editMode" [checked]="showPasswordField"
         *ngIf="userData()?.id"
         (change)="togglePasswordField($event.checked)">Cambiar Contraseña</mat-checkbox>
 
