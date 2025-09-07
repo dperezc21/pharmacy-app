@@ -15,7 +15,7 @@ export const HomeRoute: Routes = [
     path: "page",
     component: HomeComponent,
     outlet: 'home_page',
-    /*canActivate: [userAuthenticatedGuard]*/
+    canActivate: [userAuthenticatedGuard]
   },
   {
     path: "products",
@@ -24,26 +24,26 @@ export const HomeRoute: Routes = [
       getAllCategories: GetCategoriesResolver,
       getAllLaboratories: GetLaboratoriesResolver },
     outlet: 'home_page',
-    /*canActivate: [userAuthenticatedGuard]*/
+    canActivate: [userAuthenticatedGuard]
   },
   {
     path: "inventory",
     component: InventoryComponent,
     resolve: { getAllProducts: getProductsResolver, getInventory: GetInventoryResolver },
     outlet: 'home_page',
-    /*canActivate: [userAuthenticatedGuard]*/
+    canActivate: [userAuthenticatedGuard]
   },
   {
     path: "sale",
     component: SellProductsFormComponent,
     resolve: { getAllProducts: getProductsResolver, getInventory: GetInventoryResolver },
     outlet: 'home_page',
-    /*canActivate: [userAuthenticatedGuard]*/
+    canActivate: [userAuthenticatedGuard]
   },
   {
     path: "historial",
     component: HistoryContainerComponent,
     outlet: 'home_page',
-    /*canActivate: [userAuthenticatedGuard]*/
+    canActivate: [userAuthenticatedGuard]
   }
 ] as Routes;

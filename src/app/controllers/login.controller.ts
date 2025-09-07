@@ -1,6 +1,6 @@
 import {computed, Injectable, Signal, signal} from '@angular/core';
 import {AuthUserService} from '../services/auth-user.service';
-import {User, UserAuth} from '../models/user.models';
+import {UserAuth} from '../models/user.models';
 import {takeUntil, tap} from 'rxjs';
 import {DestroySubject} from '../services/destroy-subject.service';
 import {SnackBarService} from '../services/snack-bar.service';
