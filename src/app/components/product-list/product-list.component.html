@@ -66,7 +66,7 @@
         </button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="editProduct.emit(element)">📝 Editar</button>
-          <button mat-menu-item (click)="deleteProduct.emit(element)">🗑️ Eliminar</button>
+          <button mat-menu-item [disabled]="!userAuthenticatedController.userIsAdmin()" (click)="deleteProduct.emit(element)">🗑️ Eliminar</button>
         </mat-menu>
       </td>
     </ng-container>

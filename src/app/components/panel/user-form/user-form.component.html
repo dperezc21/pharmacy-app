@@ -1,0 +1,48 @@
+<div class="user-form">
+  <mat-card-header>
+    <h2> {{userData()?.id ? 'Editar': 'Añadir'}} Usuario</h2>
+  </mat-card-header>
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre completo</mat-label>
+      <input matInput formControlName="fullName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre de usuario</mat-label>
+      <input matInput formControlName="userName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Rol</mat-label>
+      <mat-select formControlName="role" [compareWith]="compareRoles">
+        <mat-option *ngFor="let role of roles" [value]="role">{{ role }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="password-section">
+      <mat-checkbox [disabled]="!editMode" [checked]="showPasswordField"
+        *ngIf="userData()?.id"
+        (change)="togglePasswordField($event.checked)">Cambiar Contraseña</mat-checkbox>
+
+        <mat-form-field *ngIf="showPasswordField || !userData()?.id" appearance="outline" class="full-width">
+          <mat-label>{{userData()?.id ? 'Nueva contraseña' : 'Contraseña' }}</mat-label>
+          <input matInput formControlName="password" type="{{ isTypePassword ? 'password': 'text'}}" />
+          <button matSuffix mat-icon-button (click)="changeTypePassword()">
+            <mat-icon>{{isTypePassword ? 'visibility_off': 'visibility'}}</mat-icon>
+          </button>
+          <mat-hint>Mínimo 6 caracteres</mat-hint>
+        </mat-form-field>
+    </div>
+
+    <div class="buttons">
+      <button mat-flat-button color="primary" type="submit" [disabled]="!editMode || userForm.invalid || this.userRegisterController.loadingRequest()">
+        {{ userData() ? 'Guardar cambios' : 'Crear usuario' }}
+      </button>
+
+      <button mat-stroked-button color="accent" type="button" (click)="toggleEdit()">
+        {{ editMode ? 'Cancelar edición' : 'Editar' }}
+      </button>
+    </div>
+  </form>
+</div>

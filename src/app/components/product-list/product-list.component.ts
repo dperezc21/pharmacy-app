@@ -21,6 +21,7 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {MatIcon} from '@angular/material/icon';
 import {MatPaginator} from '@angular/material/paginator';
 import {tap} from 'rxjs';
+import {UserAuthenticatedController} from '../../controllers/user-authenticated.controller';
 
 @Component({
   selector: 'app-product-list',
@@ -56,6 +57,9 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   dataSource!: MatTableDataSource<Product>;
   totalItems!: number;
   formProductList!: FormGroup;
+
+  constructor(protected userAuthenticatedController: UserAuthenticatedController) {
+  }
 
   productByCode(code: string = "") {
     if(!code?.trim()) {

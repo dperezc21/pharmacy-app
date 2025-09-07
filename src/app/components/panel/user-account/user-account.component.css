@@ -1,0 +1,8 @@
+
+.user-account-container {
+  width: 100%;
+  height: 90dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

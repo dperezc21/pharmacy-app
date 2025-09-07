@@ -1,0 +1,24 @@
+.nav-links-panel {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 30px;
+  height: 80dvh;
+  background-color: #4f9fef;
+  border-radius: 10px;
+}
+
+.route-panel {
+  display: flex;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  padding: 5px;
+}
+
+.route-activated {
+  color: #2c2c2c;
+  font-weight: bold;
+  border-bottom: solid 1px black;
+}

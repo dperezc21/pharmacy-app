@@ -1,0 +1,13 @@
+<app-home-header></app-home-header>
+<div class="flex-row margin-top-50">
+  <nav class="nav-links-panel">
+    <a class="route-panel"
+       [routerLinkActive]="'route-activated'"
+       [routerLink]="[{outlets: { panel: ['account']}}]">Cuenta</a>
+    <a *ngIf="userAuthController.userIsAdmin()" class="route-panel"
+       [routerLinkActive]="'route-activated'"
+       [routerLink]="[{outlets: { panel: ['users']}}]">Usarios</a>
+  </nav>
+  <router-outlet name="panel"></router-outlet>
+
+</div>
