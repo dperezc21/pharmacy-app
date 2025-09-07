@@ -16,4 +16,8 @@ export class AuthUserService {
   registerUser(userRegister: User): Observable<User> {
     return this.httpClient.post<User>(`${AUTH_USER_URL}/register`, userRegister)
   }
+
+  updateUser({id, ...userToUpdate}: User): Observable<User> {
+    return this.httpClient.put<User>(`${AUTH_USER_URL}/update/${id}`, userToUpdate)
+  }
 }

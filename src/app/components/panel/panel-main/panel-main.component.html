@@ -4,7 +4,7 @@
     <a class="route-panel"
        [routerLinkActive]="'route-activated'"
        [routerLink]="[{outlets: { panel: ['account']}}]">Cuenta</a>
-    <a class="route-panel"
+    <a *ngIf="userAuthController.userIsAdmin()" class="route-panel"
        [routerLinkActive]="'route-activated'"
        [routerLink]="[{outlets: { panel: ['users']}}]">Usarios</a>
   </nav>

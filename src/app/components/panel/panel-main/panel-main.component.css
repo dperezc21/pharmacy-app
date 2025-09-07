@@ -15,12 +15,6 @@
   color: white;
   text-decoration: none;
   padding: 5px;
-  transition: font-weight;
-  transition-duration: 0.3s;
-}
-
-.route-panel:hover {
-  font-weight: bold;
 }
 
 .route-activated {

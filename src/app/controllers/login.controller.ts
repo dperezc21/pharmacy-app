@@ -5,21 +5,21 @@ import {takeUntil, tap} from 'rxjs';
 import {DestroySubject} from '../services/destroy-subject.service';
 import {SnackBarService} from '../services/snack-bar.service';
 import {Router} from '@angular/router';
+import {UserAuthenticatedController} from './user-authenticated.controller';
 
 @Injectable({ providedIn: 'root' })
 export class LoginController extends DestroySubject {
 
   private _loadingLoginUser = signal<boolean>(false);
   private _errorMessage = signal<string>("");
-  private _user = signal<User | null>(null);
 
   private readonly _loadingRequest: Signal<boolean> = computed(() => this._loadingLoginUser());
   private readonly _error: Signal<string> = computed(() => this._errorMessage());
-  private readonly _userAuthenticated: Signal<User | null> = computed(() => this._user());
 
   constructor(private authUserService: AuthUserService,
               private snackBarService: SnackBarService,
-              private router: Router) {
+              private router: Router,
+              private userAuthController: UserAuthenticatedController) {
     super();}
 
   loginAuth(user: UserAuth): void {
@@ -29,20 +29,20 @@ export class LoginController extends DestroySubject {
         next: value => {
           this._loadingLoginUser.set(false);
           if(value?.id) {
-            this._user.set(value);
+            this.userAuthController.user = {...value, role: value.role.toLowerCase()};
             this.router.navigate(['home', { outlets: {home_page: ['page']}}]);
           }
         },
         error: () => {
           this.snackBarService.showMessage("usuario y/o contraseña incorrecta")
           this._loadingLoginUser.set(false);
-          this._user.set({
+          /*this.userAuthController.user = {
             id: 1,
             fullName: "davier",
             userName: "davierperez",
             role: "admin"
-          });
-          this.router.navigate(['home', { outlets: {home_page: ['page']}}]);
+          };
+          this.router.navigate(['home', { outlets: {home_page: ['page']}}]);*/
         }
       }))
       .subscribe();
@@ -54,10 +54,5 @@ export class LoginController extends DestroySubject {
 
   get error(): Signal<string> {
     return this._error;
-  }
-
-
-  get userAuthenticated(): Signal<User | null> {
-    return this._userAuthenticated;
   }
 }

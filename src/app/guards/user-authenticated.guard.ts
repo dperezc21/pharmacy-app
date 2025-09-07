@@ -1,11 +1,11 @@
 import {CanActivateFn, Router} from '@angular/router';
 import {inject} from '@angular/core';
-import {LoginController} from '../controllers/login.controller';
+import {UserAuthenticatedController} from '../controllers/user-authenticated.controller';
 
 export const userAuthenticatedGuard: CanActivateFn = (route, state) => {
-  const loginController = inject(LoginController);
+  const userAuthenticatedController = inject(UserAuthenticatedController);
   const routerUrl: Router = inject(Router);
-  if(!loginController.userAuthenticated()?.id) {
+  if(!userAuthenticatedController.userAuthenticated()?.id) {
     routerUrl.navigate(['login']);
     return false;
   }
