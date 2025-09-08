@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="products()" class="mat-elevation-z8">
+<table mat-table [dataSource]="itemsPaginated()" class="mat-elevation-z8">
 
   <!-- Código -->
   <ng-container matColumnDef="code">
@@ -37,3 +37,6 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+<mat-paginator (page)="changePage($event)"
+               [pageSizeOptions]="[5, 10, 15]"
+               [length]="products().length" [pageSize]="5"></mat-paginator>
