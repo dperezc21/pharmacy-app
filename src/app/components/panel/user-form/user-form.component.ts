@@ -1,4 +1,4 @@
-import {Component, input, OnDestroy, OnInit} from '@angular/core';
+import {Component, input, OnDestroy, OnInit, output} from '@angular/core';
 import {User} from '../../../models/user.models';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatHint, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
@@ -39,6 +39,8 @@ import {tap} from 'rxjs';
 })
 export class UserFormComponent implements OnInit, OnDestroy {
   userData = input<User | null>(null);
+  goBack = output<User | null>();
+  isGoBack = input<boolean>(false);
 
   userForm!: FormGroup;
   editMode = false;
@@ -101,7 +103,10 @@ export class UserFormComponent implements OnInit, OnDestroy {
       formValue.role = formValue.role.toUpperCase();
       this.userRegisterController.saveOrUpdateUser(formValue)
         .pipe(tap({
-          next: () => this.toggleEdit()
+          next: (value: User) => {
+            this.toggleEdit();
+            if(this.isGoBack()) this.goBack.emit(value);
+          }
         })).subscribe();
     }
   }

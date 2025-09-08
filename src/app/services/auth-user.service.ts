@@ -20,4 +20,12 @@ export class AuthUserService {
   updateUser({id, ...userToUpdate}: User): Observable<User> {
     return this.httpClient.put<User>(`${AUTH_USER_URL}/update/${id}`, userToUpdate)
   }
+
+  getAllUsers(): Observable<User[]> {
+    return this.httpClient.get<User[]>(`${AUTH_USER_URL}`)
+  }
+
+  deleteUser(userId: number): Observable<boolean> {
+    return this.httpClient.delete<boolean>(`${AUTH_USER_URL}/${userId}`);
+  }
 }

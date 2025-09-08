@@ -1,7 +1,7 @@
 import {computed, Injectable, Signal, signal} from '@angular/core';
 import {AuthUserService} from '../services/auth-user.service';
 import {User} from '../models/user.models';
-import {iif, Observable, takeUntil, tap} from 'rxjs';
+import {iif, map, Observable, takeUntil, tap} from 'rxjs';
 import {SnackBarService} from '../services/snack-bar.service';
 import {DestroySubject} from '../services/destroy-subject.service';
 
@@ -41,7 +41,8 @@ export class UserRegisterController extends DestroySubject {
   saveOrUpdateUser(user: User): Observable<User> {
     this._loadingRegisterUser.set(true);
     return iif(() => !!user?.id, this.updateDataUser(user), this.registerUser(user))
-      .pipe(takeUntil(this.destroy$), tap({
+      .pipe(takeUntil(this.destroy$),
+        map(value => { return {...value, role: value.role.toLowerCase()} }), tap({
         next: (value: User) => {
           this._loadingRegisterUser.set(false);
         }, error: () => this._loadingRegisterUser.set(false)

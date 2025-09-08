@@ -15,7 +15,6 @@ import {LaboratoryController} from '../../controllers/laboratory.controller';
 import {CategoryController} from '../../controllers/category.controller';
 import {Category, Laboratory} from '../../models/ApplicationValue';
 import {iif, of, switchMap, tap} from 'rxjs';
-import {NgIf} from '@angular/common';
 import {MatCheckbox} from '@angular/material/checkbox';
 
 @Component({
@@ -71,10 +70,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  inputCodeIsValid(): boolean {
-    return this.productForm.get('code')?.valid as boolean;
-  }
-
   compareCategories(o1: Category, o2: Category): boolean {
     return o1.categoryId === o2.categoryId;
   }
@@ -84,7 +79,6 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   saveProduct() {
-    console.log("EDIT", this.productToEdit())
     this.isSaving = true;
     if (this.productForm.valid) {
       const {isPackage, ...productToSave}: Product = this.productForm.value;

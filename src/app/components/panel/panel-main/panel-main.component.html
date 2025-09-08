@@ -8,6 +8,8 @@
        [routerLinkActive]="'route-activated'"
        [routerLink]="[{outlets: { panel: ['users']}}]">Usarios</a>
   </nav>
-  <router-outlet name="panel"></router-outlet>
+  <div class="full-width">
+    <router-outlet name="panel"></router-outlet>
+  </div>
 
 </div>

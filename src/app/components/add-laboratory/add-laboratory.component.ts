@@ -34,11 +34,8 @@ export class AddLaboratoryComponent implements OnInit {
 
   saveLab() {
     if (this.labForm.valid) {
-      console.log('Laboratorio guardado :', this.labForm.value);
       this.dialogRef.close(this.labForm.value as Laboratory);
       this.labForm.reset();
-    } else {
-      this.labForm.markAllAsTouched();
-    }
+    } else this.labForm.markAllAsTouched();
   }
 }

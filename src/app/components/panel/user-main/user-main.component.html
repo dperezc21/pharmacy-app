@@ -1,0 +1,13 @@
+@if (addUserForm) {
+  <app-user-form class="flex-justify-center user-account-container"
+                 [userData]="userToUpdate"
+                 (goBack)="goBackToList($event)"
+                 [isGoBack]="true"
+                  ></app-user-form>
+} @else {
+  <app-user-table class="flex-justify-center full-width" [users]="userController.users()"
+                  (deleteUser)="openDeleteUser($event)"
+                  (addUser)="showAddUserForm()"
+                  (editUser)="userToEdit($event)"></app-user-table>
+
+}

@@ -34,7 +34,6 @@ export class AddCategoryComponent implements OnInit {
 
   saveCategory() {
     if (this.categoryForm.valid) {
-      console.log('Categoría guardada:', this.categoryForm.value);
       this.dialogRef.close(this.categoryForm.value);
       this.categoryForm.reset();
     } else {

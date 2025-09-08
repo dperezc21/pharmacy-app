@@ -70,6 +70,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().pipe(switchMap(value => {
       return value ? this.productController.deleteProduct(product.id as number): EMPTY;
-    })).subscribe(console.log);
+    })).subscribe();
   }
 }
