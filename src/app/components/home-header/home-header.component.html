@@ -4,14 +4,27 @@
   </div>
 
   <nav class="nav-links">
-    <a [routerLinkActive]="'link-is-activated'" class="cursor-pointer" (click)="goHomeRoutes('home','page')">Inicio</a>
-    <a [routerLinkActive]="'link-is-activated'" class="cursor-pointer" (click)="goHomeRoutes('home','products')">Productos</a>
-    <a [routerLinkActive]="'link-is-activated'" class="cursor-pointer" (click)="goHomeRoutes('home','sale')"
+    <a [routerLinkActive]="'link-is-activated'"
+       class="cursor-pointer" (click)="goHomeRoutes('home','page')"
+       [routerLink]="[{outlets: {home_page: ['page']}}]">Inicio</a>
+       <!--(click)="goHomeRoutes('home','page')">Inicio</a>-->
+
+    <a [routerLinkActive]="'link-is-activated'"
+       class="cursor-pointer" (click)="goHomeRoutes('home','products')"
+       [routerLink]="[{outlets: {home_page: ['products']}}]">Productos</a>
+       <!--(click)="goHomeRoutes('home','products')">Productos</a>-->
+
+    <a [routerLinkActive]="'link-is-activated'" class="cursor-pointer"
+       (click)="goHomeRoutes('home','sale')"
        [routerLink]="[{outlets: {home_page: ['sale']}}]">Realizar Venta</a>
+
     <a [routerLinkActive]="'link-is-activated'"
-       class="cursor-pointer" (click)="goHomeRoutes('home','inventory')">Inventario</a>
+       class="cursor-pointer" (click)="goHomeRoutes('home','inventory')"
+       [routerLink]="[{outlets: {home_page: ['inventory']}}]">Inventario</a>
+
     <a [routerLinkActive]="'link-is-activated'"
-       class="cursor-pointer" (click)="goHomeRoutes('home','historial')">Historial</a>
+       class="cursor-pointer" (click)="goHomeRoutes('home','historial')"
+       [routerLink]="[{outlets: {home_page: ['historial']}}]">Historial</a>
   </nav>
 
   <button mat-button [matMenuTriggerFor]="menu" style="color: black">
