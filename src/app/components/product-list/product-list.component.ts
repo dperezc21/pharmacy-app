@@ -22,6 +22,7 @@ import {MatIcon} from '@angular/material/icon';
 import {MatPaginator} from '@angular/material/paginator';
 import {tap} from 'rxjs';
 import {UserAuthenticatedController} from '../../controllers/user-authenticated.controller';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-product-list',
@@ -42,7 +43,7 @@ import {UserAuthenticatedController} from '../../controllers/user-authenticated.
     MatLabel,
     MatMenu,
     MatMenuTrigger,
-    MatIcon, MatMenuItem, MatPaginator, ReactiveFormsModule, MatIconButton, MatSuffix],
+    MatIcon, MatMenuItem, MatPaginator, ReactiveFormsModule, MatIconButton, MatSuffix, NgIf],
   templateUrl: './product-list.component.html',
   standalone: true,
   styleUrl: './product-list.component.css'

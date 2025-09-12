@@ -73,8 +73,8 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-
   </table>
+  <p *ngIf="!dataSource?.data?.length">No hay productos para mostrar</p>
   <mat-paginator [pageSizeOptions]="[5, 10, 15]" [length]="totalItems" [pageSize]="5"></mat-paginator>
 
 </div>

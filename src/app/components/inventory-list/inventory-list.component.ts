@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, computed, input, signal, ViewChild} from '@angular/core';
-import {DatePipe, NgClass} from '@angular/common';
+import {DatePipe, NgClass, NgIf} from '@angular/common';
 import {
   MatCell,
   MatCellDef,
@@ -14,22 +14,23 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-inventory-list',
-  imports: [
-    DatePipe,
-    MatCell,
-    MatCellDef,
-    MatColumnDef,
-    MatHeaderCell,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatRow,
-    MatRowDef,
-    MatTable,
-    NgClass,
-    MatHeaderCellDef,
-    MatPaginator,
-    MatPaginator
-  ],
+    imports: [
+        DatePipe,
+        MatCell,
+        MatCellDef,
+        MatColumnDef,
+        MatHeaderCell,
+        MatHeaderRow,
+        MatHeaderRowDef,
+        MatRow,
+        MatRowDef,
+        MatTable,
+        NgClass,
+        MatHeaderCellDef,
+        MatPaginator,
+        MatPaginator,
+        NgIf
+    ],
   templateUrl: './inventory-list.component.html',
   standalone: true,
   styleUrl: './inventory-list.component.css'
