@@ -9,6 +9,7 @@ import {
 import {MatIcon} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
 import {ConfirmMessageData} from '../../models/confirm-message-data';
+import {SettingIcons} from '../../services/setting-icons';
 
 @Component({
   selector: 'app-confirm-message',
@@ -23,20 +24,10 @@ import {ConfirmMessageData} from '../../models/confirm-message-data';
   standalone: true,
   styleUrl: './confirm-message.component.css'
 })
-export class ConfirmMessageComponent implements OnInit {
+export class ConfirmMessageComponent extends SettingIcons implements OnInit {
 
   dialogRef = inject(MatDialogRef<ConfirmMessageComponent, ConfirmMessageData>);
-  data = inject<ConfirmMessageData>(MAT_DIALOG_DATA);
-  icon = '';
-  iconColor = '';
-  readonly mapIcons: Record<string, { icon: string; color: string }> = {
-    info: { icon: 'info', color: '#2196f3' },
-    warning: { icon: 'warning', color: '#ff9800' },
-    error: { icon: 'error', color: '#f44336' },
-    success: { icon: 'check_circle', color: '#4caf50' },
-  };
-
-  constructor() {}
+  data: ConfirmMessageData = inject<ConfirmMessageData>(MAT_DIALOG_DATA);
 
   onCancel(): void {
     this.dialogRef.close(false);
@@ -47,9 +38,7 @@ export class ConfirmMessageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const settingIconSelected = this.mapIcons[this.data.type] || this.mapIcons["info"];
-    this.icon = settingIconSelected.icon;
-    this.iconColor = settingIconSelected.color;
+    this.setIconSelected(this.data.type);
   }
 
 }
