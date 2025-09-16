@@ -54,13 +54,12 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   editProduct = output<Product>();
   deleteProduct = output<Product>();
   products = input<Product[]>([]);
-  displayedColumns: string[] = ['code','name', 'price', 'category', 'description', 'buttons'];
+  displayedColumns: string[] = ['code','name', 'category', 'laboratory', 'description', 'buttons'];
   dataSource!: MatTableDataSource<Product>;
   totalItems!: number;
   formProductList!: FormGroup;
 
-  constructor(protected userAuthenticatedController: UserAuthenticatedController) {
-  }
+  constructor(protected userAuthenticatedController: UserAuthenticatedController) {}
 
   productByCode(code: string = "") {
     if(!code?.trim()) {
