@@ -1,12 +1,12 @@
 import {Component, inject, Input, input, OnDestroy, OnInit, output, signal} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatSelect} from '@angular/material/select';
 import {MatOption} from '@angular/material/core';
 import {MatFormField} from '@angular/material/form-field';
 import {MatInput, MatLabel} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 import {MatCardActions} from '@angular/material/card';
-import {Product} from '../../models/product.model';
+import {Product, ProductPriceType} from '../../models/product.model';
 import {MatIcon} from '@angular/material/icon';
 import {MatDialog} from '@angular/material/dialog';
 import {AddCategoryComponent} from '../add-category/add-category.component';
@@ -16,6 +16,8 @@ import {CategoryController} from '../../controllers/category.controller';
 import {Category, Laboratory} from '../../models/ApplicationValue';
 import {iif, of, switchMap, tap} from 'rxjs';
 import {MatCheckbox} from '@angular/material/checkbox';
+import {NgForOf, NgIf} from '@angular/common';
+import {PRODUCT_PRICE_TYPE} from '../../constants/product.constants';
 
 @Component({
   selector: 'app-add-product',
@@ -29,7 +31,9 @@ import {MatCheckbox} from '@angular/material/checkbox';
     MatButton,
     MatCardActions,
     MatIcon,
-    MatCheckbox
+    MatCheckbox,
+    NgForOf,
+    NgIf
   ],
   templateUrl: './add-product.component.html',
   standalone: true,
@@ -39,8 +43,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
   @Input() isSaving!: boolean;
   productForm!: FormGroup;
 
-  laboratories = signal<Laboratory[]>([]); //['Bayer', 'Pfizer', 'Novartis', 'Roche'];
-  categories = signal<Category[]>([]); //['Analgésico', 'Antibiótico', 'Antigripal', 'Vitaminas'];
+  laboratories = signal<Laboratory[]>([]);
+  categories = signal<Category[]>([]);
 
   goBack = output<void>();
   productSaved = input<boolean>(true);
@@ -63,11 +67,20 @@ export class AddProductComponent implements OnInit, OnDestroy {
       category: new FormControl( this.productToEdit()?.category ?? '', [Validators.required]),
       description: new FormControl( this.productToEdit()?.description ?? ''),
       presentation: new FormControl(this.productToEdit()?.presentation ?? '', [Validators.required, Validators.minLength(0), Validators.maxLength(100)]),
-      packageSalePrice: new FormControl( this.productToEdit()?.packageSalePrice ?? 0, [Validators.min(0)]),
-      salePrice: new FormControl( this.productToEdit()?.salePrice ?? '', [Validators.required, Validators.min(0)]),
-      isPackage: new FormControl( this.productToEdit()?.isPackage ?? ''),
-      packageUnit: new FormControl( this.productToEdit()?.packageUnit ?? 0, [Validators.min(0)]),
+      priceTypes: this.getPriceTypes()
     });
+  }
+
+  get priceTypesFormArray(): FormArray {
+    return this.productForm.get('priceTypes') as FormArray;
+  }
+
+  getPriceTypes() {
+    return this.fb.array(
+      PRODUCT_PRICE_TYPE.map((value: ProductPriceType) => {
+        return this.fb.group({...value});
+      })
+    );
   }
 
   compareCategories(o1: Category, o2: Category): boolean {

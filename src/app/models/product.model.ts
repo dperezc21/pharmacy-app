@@ -22,3 +22,10 @@ export interface InventoryProduct {
   purchaseDate: Date;
   price: number;
 }
+
+export interface ProductPriceType {
+  type?: string,
+  label?: string,
+  selected?: boolean,
+  price?: number
+}
