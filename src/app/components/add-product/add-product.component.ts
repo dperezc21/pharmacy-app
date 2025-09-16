@@ -67,7 +67,9 @@ export class AddProductComponent implements OnInit, OnDestroy {
       category: new FormControl( this.productToEdit()?.category ?? '', [Validators.required]),
       description: new FormControl( this.productToEdit()?.description ?? ''),
       presentation: new FormControl(this.productToEdit()?.presentation ?? '', [Validators.required, Validators.minLength(0), Validators.maxLength(100)]),
-      priceTypes: this.getPriceTypes()
+      priceTypes: this.productToEdit()?.id
+                  ? this.mapPriceTypesFormArray(this.productToEdit()?.priceTypes ?? [])
+                  : this.mapPriceTypesFormArray(PRODUCT_PRICE_TYPE)
     });
   }
 
@@ -75,12 +77,10 @@ export class AddProductComponent implements OnInit, OnDestroy {
     return this.productForm.get('priceTypes') as FormArray;
   }
 
-  getPriceTypes() {
-    return this.fb.array(
-      PRODUCT_PRICE_TYPE.map((value: ProductPriceType) => {
+  mapPriceTypesFormArray(priceTypes: ProductPriceType[]) {
+    return this.fb.array(priceTypes.map((value: ProductPriceType) => {
         return this.fb.group({...value});
-      })
-    );
+      }));
   }
 
   compareCategories(o1: Category, o2: Category): boolean {

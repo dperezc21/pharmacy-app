@@ -12,6 +12,7 @@ export interface Product {
   salePrice: number;
   isPackage?: boolean;
   packageUnit?: number;
+  priceTypes: ProductPriceType[];
 }
 
 export interface InventoryProduct {
