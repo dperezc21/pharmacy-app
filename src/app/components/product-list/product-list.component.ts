@@ -54,7 +54,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   editProduct = output<Product>();
   deleteProduct = output<Product>();
   products = input<Product[]>([]);
-  displayedColumns: string[] = ['code','name', 'category', 'laboratory', 'description', 'buttons'];
+  displayedColumns: string[] = ['code','name', 'presentation', 'category', 'laboratory', 'buttons'];
   dataSource!: MatTableDataSource<Product>;
   totalItems!: number;
   formProductList!: FormGroup;
