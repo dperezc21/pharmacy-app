@@ -3,20 +3,19 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {CATEGORY_URL} from '../constants/url.constants';
 import {Category} from '../models/ApplicationValue';
+import {HttpHeaderTokenBearer} from './HttpHeaderTokenBearer';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private headerTokenBearer: HttpHeaderTokenBearer) {}
 
   getAll(): Observable<Category[]> {
-    return this.http.get<Category[]>(CATEGORY_URL);
-  }
-
-  getById(id: number): Observable<Category> {
-    return this.http.get<Category>(`${CATEGORY_URL}/${id}`);
+    return this.http.get<Category[]>(CATEGORY_URL, {
+      headers: this.headerTokenBearer.getHeaderBearerToken()
+    });
   }
 
   create(category: Category): Observable<Category> {
