@@ -11,10 +11,8 @@ import {UserAuthenticatedController} from './user-authenticated.controller';
 export class LoginController extends DestroySubject {
 
   private _loadingLoginUser = signal<boolean>(false);
-  private _errorMessage = signal<string>("");
 
   private readonly _loadingRequest: Signal<boolean> = computed(() => this._loadingLoginUser());
-  private readonly _error: Signal<string> = computed(() => this._errorMessage());
 
   constructor(private authUserService: AuthUserService,
               private snackBarService: SnackBarService,
@@ -36,13 +34,6 @@ export class LoginController extends DestroySubject {
         error: () => {
           this.snackBarService.showMessage("usuario y/o contraseña incorrecta")
           this._loadingLoginUser.set(false);
-          /*this.userAuthController.user = {
-            id: 1,
-            fullName: "davier",
-            userName: "davierperez",
-            role: "admin"
-          };
-          this.router.navigate(['home', { outlets: {home_page: ['page']}}]);*/
         }
       }))
       .subscribe();
@@ -50,9 +41,5 @@ export class LoginController extends DestroySubject {
 
   get loadingRequest(): Signal<boolean> {
     return this._loadingRequest;
-  }
-
-  get error(): Signal<string> {
-    return this._error;
   }
 }

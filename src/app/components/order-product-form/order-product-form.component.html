@@ -1,5 +1,5 @@
 <div class="container">
-  <form [formGroup]="orderForm" (ngSubmit)="sendRequest()" class="left-panel">
+  <form [formGroup]="orderForm" (ngSubmit)="sendRequest()" class="left-panel scrollable-form">
 
     <mat-form-field appearance="outline" class="width-80">
       <mat-label>Buscar producto (código o nombre)</mat-label>
@@ -18,13 +18,22 @@
       </mat-select>
     </mat-form-field>
     <div *ngIf="orderForm.get('selectProduct')?.value" class="quantity-container">
-      <mat-radio-group formControlName="option" class="flex-row">
-        <mat-radio-button [value]="1">Unidad</mat-radio-button>
-        <mat-radio-button [value]="2">Por paquete</mat-radio-button>
-      </mat-radio-group>
+      <section formArrayName="priceTypes" class="grid-column-span-4">
+        <h4 class="margin-2px">Selecciona un tipo de precio: </h4>
+        <mat-radio-group [formControl]="selectedPriceTypeControl">
+          <div class="radio-button-container" *ngFor="let group of priceTypesFormArray.controls; let i = index" [formGroupName]="i">
+            <mat-radio-button [value]="i" *ngIf="group.get('selected')?.value">
+              {{ group.get('label')?.value }}
+            </mat-radio-button>
+          </div>
+        </mat-radio-group>
+          <mat-form-field appearance="outline" *ngIf="enableButtonCancel()">
+            <mat-label>Precio</mat-label>
+            <input matInput type="number" [formControl]="priceControlForSelected()">
+          </mat-form-field>
+      </section>
 
       <div>
-
         <mat-form-field appearance="outline">
           <mat-label>Cantidad</mat-label>
           <input matInput type="number" min="1" formControlName="quantity">
@@ -32,14 +41,8 @@
             Stock en inventario: {{this.orderForm.get('quantity')?.errors?.['stockExceeded']['currentStock']}}
           </mat-error>
         </mat-form-field>
-
-        <mat-form-field appearance="outline" *ngIf="enableButtonCancel()">
-          <mat-label>Precio de Compra</mat-label>
-          <input matInput type="number" formControlName="buyPrice">
-        </mat-form-field>
-
         <button mat-raised-button color="primary" type="button" class="margin-5-px"
-                [disabled]="!orderForm.get('quantity')?.value || (!orderForm.get('buyPrice')?.value && enableButtonCancel())"
+                [disabled]="selectedPriceTypeControl.value == null || orderForm.get('quantity')?.invalid"
                 (click)="addProductToList()">Añadir a lista</button>
       </div>
     </div>

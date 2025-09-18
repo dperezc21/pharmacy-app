@@ -34,7 +34,6 @@ export class InventoryController {
   mapToInventoryProduct(product: Product, inventory: InventoryModel): InventoryProduct {
     return {
       name: product?.name,
-      price: product?.packageSalePrice,
       id: inventory?.inventoryId ?? 0,
       stock: inventory?.quantity,
       code: product?.code,

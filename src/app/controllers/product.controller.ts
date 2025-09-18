@@ -5,7 +5,6 @@ import {iif, map, Observable, take, takeUntil, tap} from 'rxjs';
 import {DestroySubject} from '../services/destroy-subject.service';
 import {SnackBarService} from '../services/snack-bar.service';
 
-
 @Injectable({ providedIn: "root" })
 export class ProductController extends DestroySubject {
 
@@ -16,11 +15,7 @@ export class ProductController extends DestroySubject {
 
   getAllProducts(): Observable<Product[]> {
     return this.productService.getAllProducts()
-      .pipe(takeUntil(this.destroy$),
-        map(value => {
-          return value.map(value => {return {...value, isPackage: !!value?.packageSalePrice}});
-        }),
-        tap({
+      .pipe(takeUntil(this.destroy$), tap({
         next: (products: Product[]) => this.productList.set(products)
       }));
   }
@@ -33,7 +28,7 @@ export class ProductController extends DestroySubject {
     return this.productService.saveProduct(product)
             .pipe(take(1), map((value: Product) => {
               if(value?.id) {
-                this.setNewProduct({...value, isPackage: !!value?.packageSalePrice});
+                this.setNewProduct(value);
                 this.snackBarService.showMessage("Producto Guardado Correctamente");
               }
               return !!value?.id;
@@ -44,7 +39,7 @@ export class ProductController extends DestroySubject {
     return this.productService.editProduct(product)
       .pipe(take(1), map((value: Product) => {
         if(value?.id) {
-          this.updateProductEdited({...value, isPackage: !!value?.packageSalePrice});
+          this.updateProductEdited(value);
           this.snackBarService.showMessage("Producto Editado Correctamente");
         }
         return !!value?.id;

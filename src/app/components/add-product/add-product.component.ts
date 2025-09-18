@@ -59,7 +59,8 @@ export class AddProductComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.laboratories = this.laboratoryController.laboratoriesGot();
     this.categories = this.categoryController.categoriesGot();
-
+    const productTypePrices: ProductPriceType[] = (this.productToEdit()?.id && this.productToEdit()?.priceTypes.length
+                              ? this.productToEdit()?.priceTypes : PRODUCT_PRICE_TYPE) as ProductPriceType[];
     this.productForm = this.fb.group({
       code: [this.productToEdit()?.code ?? '', Validators.required],
       name: new FormControl( this.productToEdit()?.name ?? '', [Validators.required]),
@@ -67,9 +68,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
       category: new FormControl( this.productToEdit()?.category ?? '', [Validators.required]),
       description: new FormControl( this.productToEdit()?.description ?? ''),
       presentation: new FormControl(this.productToEdit()?.presentation ?? '', [Validators.required, Validators.minLength(0), Validators.maxLength(100)]),
-      priceTypes: this.productToEdit()?.id
-                  ? this.mapPriceTypesFormArray(this.productToEdit()?.priceTypes ?? [])
-                  : this.mapPriceTypesFormArray(PRODUCT_PRICE_TYPE)
+      priceTypes: this.mapPriceTypesFormArray(productTypePrices)
     });
   }
 
@@ -91,11 +90,22 @@ export class AddProductComponent implements OnInit, OnDestroy {
     return o1.laboratoryId === o2.laboratoryId;
   }
 
+  mapPriceTypesSelected(priceTypes: ProductPriceType[]): ProductPriceType[] {
+    return priceTypes.map(value => {
+      if(!value.selected) {
+        value.price = 0;
+        value.quantity = 0;
+      }
+      return value;
+    })
+  }
+
   saveProduct() {
     this.isSaving = true;
     if (this.productForm.valid) {
-      const {isPackage, ...productToSave}: Product = this.productForm.value;
+      const productToSave: Product = this.productForm.value;
       if(this.productToEdit()?.id) productToSave.id = this.productToEdit()?.id;
+      productToSave.priceTypes = this.mapPriceTypesSelected(productToSave.priceTypes);
       this.emitProductToSave.emit(productToSave);
     } else {
       this.productForm.markAllAsTouched();

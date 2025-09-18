@@ -7,16 +7,14 @@
     <a [routerLinkActive]="'link-is-activated'"
        class="cursor-pointer" (click)="goHomeRoutes('home','page')"
        [routerLink]="[{outlets: {home_page: ['page']}}]">Inicio</a>
-       <!--(click)="goHomeRoutes('home','page')">Inicio</a>-->
 
     <a [routerLinkActive]="'link-is-activated'"
        class="cursor-pointer" (click)="goHomeRoutes('home','products')"
        [routerLink]="[{outlets: {home_page: ['products']}}]">Productos</a>
-       <!--(click)="goHomeRoutes('home','products')">Productos</a>-->
 
     <a [routerLinkActive]="'link-is-activated'" class="cursor-pointer"
        (click)="goHomeRoutes('home','sale')"
-       [routerLink]="[{outlets: {home_page: ['sale']}}]">Realizar Venta</a>
+       [routerLink]="[{outlets: {home_page: ['sale']}}]">Caja</a>
 
     <a [routerLinkActive]="'link-is-activated'"
        class="cursor-pointer" (click)="goHomeRoutes('home','inventory')"

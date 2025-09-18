@@ -6,6 +6,7 @@ export interface OrderProduct {
   quantity: number;
   unitPrice: number;
   subTotal: number;
+  subQuantity: number;
 }
 
 export interface OrderRequestData {
