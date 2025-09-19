@@ -47,7 +47,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   showPasswordField = false;
 
   roles = ['admin', 'user'];
-  isTypePassword: boolean = true;
+  showPasswordText: boolean = true;
 
   constructor(private fb: FormBuilder, protected userRegisterController: UserRegisterController) {}
 
@@ -89,7 +89,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   changeTypePassword() {
-    this.isTypePassword = !this.isTypePassword;
+    this.showPasswordText = !this.showPasswordText;
   }
 
   compareRoles(o1: string, o2: string): boolean {

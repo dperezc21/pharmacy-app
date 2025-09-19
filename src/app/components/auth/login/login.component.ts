@@ -1,13 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatFormField} from '@angular/material/form-field';
+import {MatFormField, MatSuffix} from '@angular/material/form-field';
 import {MatInput, MatLabel} from '@angular/material/input';
-import {MatButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {NgIf, NgOptimizedImage} from '@angular/common';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {LoginController} from '../../../controllers/login.controller';
 import {UserAuth} from '../../../models/user.models';
 import {MatCardActions, MatCardHeader, MatCardTitle} from '@angular/material/card';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,10 @@ import {MatCardActions, MatCardHeader, MatCardTitle} from '@angular/material/car
     MatCardTitle,
     MatCardHeader,
     NgOptimizedImage,
-    MatCardActions
+    MatCardActions,
+    MatIcon,
+    MatIconButton,
+    MatSuffix
   ],
   templateUrl: './login.component.html',
   standalone: true,
@@ -31,6 +35,7 @@ import {MatCardActions, MatCardHeader, MatCardTitle} from '@angular/material/car
 export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm!: FormGroup;
+  showPasswordText: boolean = true;
 
   constructor(private fb: FormBuilder,
               private loginController: LoginController) {}
@@ -42,6 +47,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   isSubmitting(): boolean {
     return this.loginController.loadingRequest();
+  }
+
+  changeTypePassword() {
+    this.showPasswordText = !this.showPasswordText;
   }
 
   ngOnInit(): void {
