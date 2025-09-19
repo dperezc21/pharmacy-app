@@ -1,7 +1,7 @@
 import {Injectable, signal, WritableSignal} from '@angular/core';
 import {ProductService} from '../services/product.service';
 import {Product} from '../models/product.model';
-import {iif, map, Observable, take, takeUntil, tap} from 'rxjs';
+import {iif, map, Observable, of, take, takeUntil, tap} from 'rxjs';
 import {DestroySubject} from '../services/destroy-subject.service';
 import {SnackBarService} from '../services/snack-bar.service';
 

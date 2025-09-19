@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, input, OnInit, output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, input, OnChanges, OnInit, output, SimpleChanges, ViewChild} from '@angular/core';
 import {
   MatCell,
   MatCellDef,
@@ -48,7 +48,7 @@ import {NgIf} from '@angular/common';
   standalone: true,
   styleUrl: './product-list.component.css'
 })
-export class ProductListComponent implements OnInit, AfterViewInit {
+export class ProductListComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   addProduct = output();
   editProduct = output<Product>();
@@ -95,6 +95,14 @@ export class ProductListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.setDataSourcePaginator();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const products: Product[] = changes["products"].currentValue;
+    if(products != null) {
+      this.dataSource = new MatTableDataSource<Product>(products);
+      this.setDataSourcePaginator();
+    }
   }
 
 }

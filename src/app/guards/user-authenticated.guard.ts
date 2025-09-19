@@ -8,7 +8,7 @@ export const userAuthenticatedGuard: CanActivateFn = (route, state) => {
   const userAuthenticatedController: UserAuthenticatedController = inject(UserAuthenticatedController);
   const authUserService: AuthUserService = inject(AuthUserService);
   const routerUrl: Router = inject(Router);
-  const INTERVAL_TIME_ONE_HOUR: number = 1000 * 60;
+  const INTERVAL_TIME_ONE_HOUR: number = 1000 * 60 * 60;
 
   interval(INTERVAL_TIME_ONE_HOUR)
     .pipe(takeWhile(() => !!userAuthenticatedController.userTokenGot()),
