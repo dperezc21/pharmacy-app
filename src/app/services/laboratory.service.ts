@@ -19,6 +19,8 @@ export class LaboratoryService {
   }
 
   createLaboratory(lab: Laboratory): Observable<Laboratory> {
-    return this.http.post<Laboratory>(LABORATORY_URL, lab);
+    return this.http.post<Laboratory>(LABORATORY_URL, lab, {
+      headers: this.headerTokenBearer.getHeaderBearerToken()
+    });
   }
 }

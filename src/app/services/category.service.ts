@@ -19,6 +19,8 @@ export class CategoryService {
   }
 
   create(category: Category): Observable<Category> {
-    return this.http.post<Category>(CATEGORY_URL, category);
+    return this.http.post<Category>(CATEGORY_URL, category, {
+      headers: this.headerTokenBearer.getHeaderBearerToken()
+    });
   }
 }
