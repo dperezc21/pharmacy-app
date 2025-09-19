@@ -8,7 +8,6 @@ export class HttpHeaderTokenBearer {
 
   constructor(private userAuthController: UserAuthenticatedController) {}
   getHeaderBearerToken() {
-    console.log("token", this.userAuthController.userTokenGot())
     return new HttpHeaders({
       'Authorization': `Bearer ${this.userAuthController.userTokenGot()}`
     });

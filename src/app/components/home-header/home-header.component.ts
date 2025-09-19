@@ -49,6 +49,6 @@ export class HomeHeaderComponent {
         this.userAuthController.resetUserToken();
         this.router.navigate(['login']);
       }
-    }));
+    })).subscribe();
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {User, UserAuth} from '../models/user.models';
@@ -34,6 +34,12 @@ export class AuthUserService {
 
   deleteUser(userId: number): Observable<boolean> {
     return this.httpClient.delete<boolean>(`${AUTH_USER_URL}/${userId}`, {
+      headers: this.headerTokenBearer.getHeaderBearerToken()
+    });
+  }
+
+  verifyToken(): Observable<boolean> {
+    return this.httpClient.get<boolean>(`${AUTH_USER_URL}/verify`, {
       headers: this.headerTokenBearer.getHeaderBearerToken()
     });
   }
