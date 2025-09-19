@@ -30,6 +30,6 @@
   </button>
   <mat-menu #menu="matMenu">
     <a (click)="goAccount()" mat-menu-item ><mat-icon>account_circle</mat-icon> Cuenta</a>
-    <a mat-menu-item ><mat-icon>logout</mat-icon> Cerrar sesion</a>
+    <a mat-menu-item (click)="doLogout()"><mat-icon>logout</mat-icon> Cerrar sesion</a>
   </mat-menu>
 </header>

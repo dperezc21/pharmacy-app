@@ -22,8 +22,11 @@ export class UserAuthenticatedController {
     return this.userAuthenticated()?.role === "admin";
   }
 
-
   get userTokenGot(): Signal<string> {
     return this._userTokenGot;
+  }
+
+  resetUserToken(): void {
+    this._userToken.set("");
   }
 }
