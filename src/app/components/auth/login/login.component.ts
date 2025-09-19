@@ -35,7 +35,7 @@ import {MatIcon} from '@angular/material/icon';
 export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm!: FormGroup;
-  showPasswordText: boolean = true;
+  showPasswordText: boolean = false;
 
   constructor(private fb: FormBuilder,
               private loginController: LoginController) {}

@@ -47,7 +47,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   showPasswordField = false;
 
   roles = ['admin', 'user'];
-  showPasswordText: boolean = true;
+  showPasswordText: boolean = false;
 
   constructor(private fb: FormBuilder, protected userRegisterController: UserRegisterController) {}
 

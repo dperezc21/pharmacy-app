@@ -15,7 +15,7 @@
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Contraseña</mat-label>
       <input matInput type="{{ showPasswordText ? 'text': 'password'}}" formControlName="password" />
-      <button matSuffix mat-icon-button (click)="changeTypePassword()">
+      <button matSuffix mat-icon-button type="button" (click)="changeTypePassword()">
         <mat-icon>{{!showPasswordText ? 'visibility': 'visibility_off'}}</mat-icon>
       </button>
     </mat-form-field>

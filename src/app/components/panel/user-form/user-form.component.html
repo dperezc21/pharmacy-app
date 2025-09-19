@@ -28,7 +28,7 @@
         <mat-form-field *ngIf="showPasswordField || !userData()?.id" appearance="outline" class="full-width">
           <mat-label>{{userData()?.id ? 'Nueva contraseña' : 'Contraseña' }}</mat-label>
           <input matInput formControlName="password" type="{{ showPasswordText ? 'text': 'password'}}" />
-          <button matSuffix mat-icon-button (click)="changeTypePassword()">
+          <button matSuffix mat-icon-button type="button" (click)="changeTypePassword()">
             <mat-icon>{{!showPasswordText ? 'visibility': 'visibility_off'}}</mat-icon>
           </button>
           <mat-hint>Mínimo 6 caracteres</mat-hint>
