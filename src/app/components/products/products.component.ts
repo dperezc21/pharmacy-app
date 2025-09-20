@@ -62,8 +62,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   dialogDeleteProduct(product: Product) {
-    const description = `¿Esta seguro que desea eliminar el producto ${product.name}`;
-    const infoData: ConfirmMessageData = { type: 'info', title: "Delete Product", description };
+    const description: string = `Esta accion eliminara toda informacion relacionada a este producto`;
+    const infoData: ConfirmMessageData = { type: 'warning', title: `Eliminar Producto: ${product.name}`, description };
     const dialogRef = this.dialog.open(ConfirmMessageComponent, {
       width: '400px',
       data: infoData,
