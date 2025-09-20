@@ -1,7 +1,7 @@
 <div class="historial-container">
   <div class="button-group">
-    <button mat-raised-button color="primary" (click)="displayView('compra')">Historial de Compra</button>
-    <button mat-raised-button color="accent" (click)="displayView('venta')">Historial de Venta</button>
+    <button class="{{ views == 'compra' ? 'button-selected': ''}}" mat-raised-button color="primary" (click)="displayView('compra')">Historial de Compra</button>
+    <button class="{{ views == 'venta' ? 'button-selected': ''}}" mat-raised-button color="accent" (click)="displayView('venta')">Historial de Venta</button>
   </div>
 
   <div class="contenido">

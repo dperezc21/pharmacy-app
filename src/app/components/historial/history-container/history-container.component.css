@@ -12,3 +12,9 @@
     margin-top: 10px;
   }
 }
+
+.button-selected {
+  color: #125ea9;
+  font-weight: bold;
+  border: solid 1px black;
+}

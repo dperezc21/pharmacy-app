@@ -1,5 +1,5 @@
 <div class="flex-column-center">
-  <h2>Añadir Producto</h2>
+  <h2>{{ productToEdit()?.id ? 'Editar': 'Añadir' }} Producto</h2>
 
   <form [formGroup]="productForm" (ngSubmit)="saveProduct()" class="form-grid">
     <mat-form-field appearance="outline">
@@ -70,7 +70,9 @@
 
     <mat-card-actions class="add-buttons-container">
       <button mat-raised-button color="primary" type="button" (click)="goBack.emit()" class="button-action">Cancelar</button>
-      <button mat-flat-button color="primary" type="submit" [disabled]="(productForm.invalid && !productSaved()) || isSaving" class="button-action">Guardar</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="(productForm.invalid && !productSaved()) || isSaving" class="button-action">
+        {{productToEdit()?.id ? 'Editar': 'Guardar'}}
+      </button>
     </mat-card-actions>
   </form>
 </div>
