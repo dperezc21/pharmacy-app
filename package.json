@@ -14,7 +14,7 @@
   },
   "build": {
     "appId": "com.pharmacy.app",
-    "productName": "pharmacy-app",
+    "productName": "Drogueria: Salud vida",
     "directories": {
       "output": "release"
     },
