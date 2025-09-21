@@ -2,29 +2,3 @@
                    [errorMessage]="historySaleController.errorMessage()"
                     [title]="'Historial de Ventas'"
                    [orderItems]="historySaleController.saleList()"></app-history-table>
-
-<!--
-<mat-card>
-  <mat-card-title>Historial de Ventas</mat-card-title>
-  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <ng-container matColumnDef="nombre">
-      <mat-header-cell *matHeaderCellDef> Medicamento </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="cantidad">
-      <mat-header-cell *matHeaderCellDef> Cantidad </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.cantidad}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="fecha">
-      <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.fecha | date}} </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
-  </mat-table>
-  <mat-paginator [pageSizeOptions]="[10, 15, 20]" [length]="totalItems" [pageSize]="10"></mat-paginator>
-</mat-card>
--->

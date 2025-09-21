@@ -28,6 +28,11 @@
         <mat-cell *matCellDef="let element"> {{element.quantity}} </mat-cell>
       </ng-container>
 
+      <ng-container matColumnDef="priceTypeName">
+        <mat-header-cell *matHeaderCellDef> Presentacion </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element?.priceTypeName | translatePriceTypeName}} </mat-cell>
+      </ng-container>
+
       <ng-container matColumnDef="unitPrice">
         <mat-header-cell *matHeaderCellDef> Precio </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.unitPrice}} </mat-cell>
