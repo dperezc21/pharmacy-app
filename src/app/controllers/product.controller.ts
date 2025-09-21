@@ -1,9 +1,10 @@
 import {Injectable, signal, WritableSignal} from '@angular/core';
 import {ProductService} from '../services/product.service';
-import {Product} from '../models/product.model';
+import {Product, ProductPriceType} from '../models/product.model';
 import {iif, map, Observable, take, takeUntil, tap} from 'rxjs';
 import {DestroySubject} from '../services/destroy-subject.service';
 import {SnackBarService} from '../services/snack-bar.service';
+import {PRODUCT_PRICE_TYPE} from '../constants/product.constants';
 
 @Injectable({ providedIn: "root" })
 export class ProductController extends DestroySubject {
@@ -15,7 +16,11 @@ export class ProductController extends DestroySubject {
 
   getAllProducts(): Observable<Product[]> {
     return this.productService.getAllProducts()
-      .pipe(takeUntil(this.destroy$), tap({
+      .pipe(takeUntil(this.destroy$),
+        map((value: Product[]) => value.map((value1: Product) => {
+          return {...value1, priceTypes: this.changeProductPriceTypesValues(value1.priceTypes)} as Product
+        })),
+        tap({
         next: (products: Product[]) => this.productList.set(products)
       }));
   }
@@ -71,5 +76,13 @@ export class ProductController extends DestroySubject {
   private removeProductOfList(productId: number): void {
     const productsFiltered: Product[] = this.productList().filter(value => value.id !== productId);
     this.productList.set(productsFiltered);
+  }
+
+  private changeProductPriceTypesValues(priceTypes: ProductPriceType[]): ProductPriceType[] {
+    return priceTypes.map((value: ProductPriceType) => {
+      const box: ProductPriceType = PRODUCT_PRICE_TYPE.find((value1: ProductPriceType): boolean => value1.type === 'box') as ProductPriceType;
+      if(value.type === 'blister') return {...box, priceTypeId: value.priceTypeId} as ProductPriceType;
+      return value;
+    }).sort((a: ProductPriceType, b: ProductPriceType) => a?.type?.split("")[0].localeCompare(b?.type?.split("")[0] as string) as number);
   }
 }

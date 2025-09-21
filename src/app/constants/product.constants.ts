@@ -11,18 +11,24 @@ export const PRODUCT_PRICE_TYPE: ProductPriceType[] = [
   },
   {
     priceTypeId: undefined,
-    type: 'package',
-    label: 'Precio por paquete',
+    type: 'box',
+    label: 'Precio por caja',
     selected: false,
     price: 0,
     quantity: 0
   },
   {
     priceTypeId: undefined,
-    type: 'blister',
-    label: 'Precio por Blister',
+    type: 'package',
+    label: 'Precio por paquete',
     selected: false,
     price: 0,
-    quantity: 0
-  }
-]
+    quantity: 0,
+  },
+];
+
+export const TRANSLATE_PRICE_TYPE: Map<string, string> = new Map([
+  ["unit", "Unidad"],
+  ["box", "Caja"],
+  ["package", "Paquete"]
+]);

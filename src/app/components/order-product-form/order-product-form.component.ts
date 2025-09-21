@@ -24,6 +24,7 @@ import {InventoryModel} from '../../models/inventory.model';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {MatIcon} from '@angular/material/icon';
 import {PRODUCT_PRICE_TYPE} from '../../constants/product.constants';
+import {TranslatePriceTypeNamePipe} from '../../pipes/translate-price-type-name.pipe';
 
 @Component({
   selector: 'app-order-product-form',
@@ -44,7 +45,8 @@ import {PRODUCT_PRICE_TYPE} from '../../constants/product.constants';
     NgIf,
     MatIcon,
     MatIconButton,
-    MatSuffix
+    MatSuffix,
+    TranslatePriceTypeNamePipe
   ],
   templateUrl: './order-product-form.component.html',
   standalone: true,
@@ -69,14 +71,15 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
     return this.orderForm.get('products') as FormArray;
   }
 
-  buildItemProduct({ productId, unitPrice, quantity, name, subTotal, subQuantity }: OrderProduct): FormGroup {
+  buildItemProduct({ productId, unitPrice, quantity, name, subTotal, totalQuantity, priceTypeName }: OrderProduct): FormGroup {
     return this.fb.group({
       productId: [productId, Validators.required],
       quantity: [quantity, [Validators.required, Validators.min(1)]],
       subTotal: [subTotal, Validators.required],
       unitPrice: [unitPrice, Validators.required],
       name: [name, Validators.required],
-      subQuantity: [subQuantity]
+      totalQuantity: [totalQuantity],
+      priceTypeName: [priceTypeName]
     });
   }
 
@@ -93,15 +96,12 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
       const formData = this.orderForm.value;
       const orderProducts: OrderProduct[] = formData.products.map((productForm: OrderProduct) => {
         const {name, ...orderProduct}: OrderProduct = productForm;
-        orderProduct.quantity = orderProduct.subQuantity;
         return orderProduct;
       }) as OrderProduct[];
 
       this.sendOrderData.emit({
         orderItems: orderProducts,
-        total: this.totalPrice,
         date: formData.date,
-        observations: formData?.observations ?? ''
       });
     }
   }
@@ -148,8 +148,13 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
     let quantity: number = this.orderForm.get('quantity')?.value as number;
     const subTotal: number = this.priceControlForSelected().value * quantity;
 
+    const priceTypePackage: ProductPriceType = this.findProductPriceTypeByType('package') as ProductPriceType;
+
+    const isBoxTypeSelected: number = this.typeControlForSelected().value == 'box'
+                                      ? priceTypePackage?.quantity as number * quantity * this.quantityControlForSelected().value
+                                      : this.quantityControlForSelected().value as number * quantity;
     const quantityUnit: number = this.typeControlForSelected().value == 'unit' ? quantity
-                                : quantity * this.quantityControlForSelected().value as number;
+                                : isBoxTypeSelected as number;
     const unitPrice: number = this.priceControlForSelected().value;
     const productToAdd = this.buildItemProduct({
       name: findProduct.name,
@@ -157,11 +162,16 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
       quantity: quantity,
       subTotal,
       unitPrice,
-      subQuantity: quantityUnit
+      totalQuantity: quantityUnit,
+      priceTypeName: this.typeControlForSelected().value as string
     });
     this.productsFormArray.push(productToAdd);
     this.totalPrice += subTotal;
     this.resetValuesAfterAddProduct();
+  }
+
+  findProductPriceTypeByType(type: string): ProductPriceType {
+    return this.priceTypesFormArray.value.find((value: ProductPriceType) => value.type == type) as ProductPriceType;
   }
 
   resetValuesAfterAddProduct(): void {
@@ -216,7 +226,6 @@ export class OrderProductFormComponent implements OnInit, OnChanges {
     this.productsFiltered.set(this.products());
     this.orderForm = this.fb.group({
       date: new FormControl(new Date(), Validators.required),
-      observations: new FormControl(''),
       products: this.fb.array([], this.minLengthArray(1)),
       selectProduct: new FormControl(''),
       searchProduct: new FormControl(''),

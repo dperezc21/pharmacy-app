@@ -6,14 +6,13 @@ export interface OrderProduct {
   quantity: number;
   unitPrice: number;
   subTotal: number;
-  subQuantity: number;
+  totalQuantity: number;
+  priceTypeName: string;
 }
 
 export interface OrderRequestData {
   orderItems: OrderProduct[],
-  total: number,
   date: Date,
-  observations: string
 }
 
 export type DetailsItemType = Omit<OrderProduct, 'productId' | 'name'>;

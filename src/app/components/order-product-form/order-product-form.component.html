@@ -46,10 +46,6 @@
                 (click)="addProductToList()">Añadir a lista</button>
       </div>
     </div>
-    <mat-form-field appearance="outline" class="width-80 margin-top-5">
-      <mat-label>Observaciones</mat-label>
-      <textarea matInput formControlName="observations" rows="3"></textarea>
-    </mat-form-field>
     <input type="submit" #submit hidden="hidden">
   </form>
 
@@ -61,6 +57,7 @@
       <tr>
         <th>Nombre</th>
         <th>Cantidad</th>
+        <th>Tipo</th>
         <th>Precio Unitario</th>
         <th>Subtotal</th>
         <th *ngIf="productsFormArray?.length"></th>
@@ -71,11 +68,12 @@
         <tr *ngFor="let item of productsFormArray.controls; let i = index">
           <td>{{ item.get('name')?.value }}</td>
           <td>{{ item.get('quantity')?.value }}</td>
+          <td>{{ item.get('priceTypeName')?.value | translatePriceTypeName }}</td>
           <td>{{ item.get('unitPrice')?.value }}</td>
-          <td>${{ item.get('subTotal')?.value }}</td>
+          <td translate="yes">${{ item.get('subTotal')?.value }}</td>
           <td><button mat-button
                       type="button"
-                      [matTooltip]="'remover product'"
+                      [matTooltip]="'remover producto'"
                       (click)="removeProduct(i)">🗑️</button></td>
         </tr>
       </tbody>

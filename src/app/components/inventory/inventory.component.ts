@@ -77,7 +77,7 @@ export class InventoryComponent implements OnInit {
   updateProductsInventory({date, orderItems }: OrderRequestData) {
     const data: InventoryProduct[] = orderItems.map((orderProduct: OrderProduct) => {
       const findProduct: Product = this.products.find(product => product.id === orderProduct.productId) as Product;
-      const inventoryModel: InventoryModel = {inventoryId: 0, date, quantity: orderProduct.quantity} as InventoryModel;
+      const inventoryModel: InventoryModel = {inventoryId: 0, date, quantity: orderProduct.totalQuantity} as InventoryModel;
       return this.inventoryController.mapToInventoryProduct(findProduct, inventoryModel)
     });
     this.filteredProducts = this.productsInventory.map(value => {
