@@ -11,10 +11,8 @@ import {
   MatRowDef,
   MatTable
 } from '@angular/material/table';
-import {DatePipe, NgIf} from '@angular/common';
-import {MatCard, MatCardTitle} from '@angular/material/card';
+import {DatePipe} from '@angular/common';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {MatProgressBar} from '@angular/material/progress-bar';
 import {OrderItemHistory} from '../../../models/order-product.model';
 import {TranslatePriceTypeNamePipe} from '../../../pipes/translate-price-type-name.pipe';
 
@@ -30,12 +28,8 @@ import {TranslatePriceTypeNamePipe} from '../../../pipes/translate-price-type-na
     MatCell,
     MatColumnDef,
     MatHeaderCellDef,
-    MatCardTitle,
     MatTable,
-    MatCard,
     MatPaginator,
-    NgIf,
-    MatProgressBar,
     DatePipe,
     TranslatePriceTypeNamePipe
   ],
@@ -47,11 +41,8 @@ export class HistoryTableComponent implements AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   orderItems = input<OrderItemHistory[]>([]);
-  title = input<string>("");
-  loadingPurchases = input<boolean>(false);
-  errorMessage = input<string | null>("");
 
-  columnsName: string[] = ['productName', 'date' , 'quantity', 'priceTypeName', 'unitPrice', 'total'];
+  columnsName: string[] = ['productName', 'quantity', 'unitPrice', 'priceTypeName', 'date', 'total'];
 
   private pageIndex = signal(0);
   private pageSize = signal(5);

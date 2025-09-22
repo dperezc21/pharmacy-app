@@ -1,5 +1,6 @@
-<app-history-table [orderItems]="historyPurchaseController.purchaseList()"
-                   [errorMessage]="historyPurchaseController.errorMessage()"
-                   [loadingPurchases]="historyPurchaseController.loadingPurchases()"
-                   [title]="'Historial de Compras'"></app-history-table>
-
+<app-expansion-panel-history
+  [errorMessage]="historyPurchaseController.errorMessage()"
+  [loadingPurchases]="historyPurchaseController.loadingPurchases()"
+  [orderHistoryList]="orderHistoryList()"
+  [thereIsNotOrdersText]="'No hay historial de compras que mostrar'"
+></app-expansion-panel-history>

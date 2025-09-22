@@ -1,4 +1,6 @@
-<app-history-table [loadingPurchases]="historySaleController.loadingSales()"
-                   [errorMessage]="historySaleController.errorMessage()"
-                    [title]="'Historial de Ventas'"
-                   [orderItems]="historySaleController.saleList()"></app-history-table>
+<app-expansion-panel-history
+  [errorMessage]="historySaleController.errorMessage()"
+  [loadingPurchases]="historySaleController.loadingSales()"
+  [orderHistoryList]="orderHistoryList()"
+  [thereIsNotOrdersText]="'No hay historial de ventas que mostrar'"
+></app-expansion-panel-history>

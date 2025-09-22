@@ -1,0 +1,28 @@
+<div *ngIf="loadingPurchases(); else showContent">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<ng-template #showContent>
+  <div *ngIf="errorMessage(); else accordion">
+    <p class="error">{{ errorMessage() }}</p>
+  </div>
+</ng-template>
+
+<ng-template #accordion>
+  <mat-accordion *ngIf="orderHistoryList()?.length" class="full-width" multi>
+    <mat-expansion-panel *ngFor="let order of orderHistoryList()">
+      <mat-expansion-panel-header>
+        <mat-panel-title> {{ order.date | date: 'fullDate': '': 'es'}} </mat-panel-title>
+        <mat-panel-description>
+          <strong>Total: </strong>&nbsp; {{ '$'+order.total}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <app-history-table [orderItems]="order.orderItems"></app-history-table>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <p *ngIf="!orderHistoryList()?.length">{{ thereIsNotOrdersText() }}</p>
+</ng-template>
+
+

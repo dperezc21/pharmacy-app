@@ -22,3 +22,10 @@ export interface OrderItemHistory extends DetailsItemType {
   product: Product,
   orderDate: Date;
 }
+
+export interface OrderHistory {
+  orderItems: OrderItemHistory[],
+  date: string,
+  total: number;
+}
+
