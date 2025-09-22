@@ -2,7 +2,7 @@ import {Injectable, signal, WritableSignal} from '@angular/core';
 import {InventoryService} from '../services/inventory.service';
 import {ProductController} from './product.controller';
 import {InventoryModel} from '../models/inventory.model';
-import {map, Observable, switchMap, tap} from 'rxjs';
+import {map, Observable, switchMap, take, tap} from 'rxjs';
 import {InventoryProduct, Product} from '../models/product.model';
 
 @Injectable({ providedIn: "root"})
@@ -13,7 +13,7 @@ export class InventoryController {
   constructor(private inventoryService: InventoryService, private productController: ProductController) {}
 
   getAllInventories(): Observable<InventoryModel[]> {
-    return this.inventoryService.getAllProductsInventory().pipe(
+    return this.inventoryService.getAllProductsInventory().pipe(take(1),
       switchMap(inventories => this.productController.getAllProducts().pipe(map(products => {
         return inventories.map(value => {
           const findProduct: Product = products.find(value1 => value1.id === value.productId) as Product;

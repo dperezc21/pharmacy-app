@@ -22,7 +22,7 @@ export class OrderProductController {
       .pipe(take(1), tap({
         next: (value: boolean) => {
           this.orderDone.set(value);
-          this.snackBarService.showMessage("Productos Añadidos a Inventario")
+          this.sellSuccessfullyMessage("Productos Añadidos a Inventario").beforeClosed().subscribe();
         },
         error: () => this.snackBarService.showMessage("Error inisperado, intentelo otra vez")
       }));
@@ -33,14 +33,13 @@ export class OrderProductController {
       .pipe(take(1), tap({
         next: (value: boolean) => {
           this.orderDone.set(value);
-          this.sellSuccessfullyMessage().beforeClosed().subscribe();
+          this.sellSuccessfullyMessage(`Productos Vendidos exitosamente`).beforeClosed().subscribe();
         },
         error: () => this.snackBarService.showMessage("Error inisperado, intentelo otra vez")
       }))
   }
 
-  sellSuccessfullyMessage(): MatDialogRef<DialogMessageComponent> {
-    const description: string = `Productos Vendidos exitosamente`;
+  sellSuccessfullyMessage(description: string): MatDialogRef<DialogMessageComponent> {
     const infoData: DialogMessageType = { type: 'success', description };
     return this.dialog.open(DialogMessageComponent, {
       width: '420px',

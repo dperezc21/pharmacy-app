@@ -52,7 +52,7 @@ export class ProductController extends DestroySubject {
   }
 
   deleteProduct(productId: number): Observable<boolean> {
-    return this.productService.deleteProduct(productId).pipe(tap(value => {
+    return this.productService.deleteProduct(productId).pipe(take(1), tap(value => {
       if(value) {
         this.removeProductOfList(productId);
         this.snackBarService.showMessage("El Producto fue Eliminado");

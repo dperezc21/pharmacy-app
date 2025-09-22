@@ -1,17 +1,19 @@
-import {computed, Injectable, Signal, signal, WritableSignal} from '@angular/core';
+import {computed, Injectable, Signal, signal} from '@angular/core';
 import {OrderHistoryService} from '../services/order-history.service';
-import {take} from 'rxjs';
+import {takeUntil} from 'rxjs';
 import {OrderItemHistory} from '../models/order-product.model';
+import {DestroySubject} from '../services/destroy-subject.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HistorySaleController {
+export class HistorySaleController extends DestroySubject {
   private salesSignal = signal<OrderItemHistory[]>([]);
   private loading = signal(false);
   private error = signal<string | null>(null);
 
-  constructor(private orderHistoryService: OrderHistoryService) {}
+  constructor(private orderHistoryService: OrderHistoryService) {
+    super();}
 
   private readonly _saleList: Signal<OrderItemHistory[]> = computed(() => this.salesSignal());
   private readonly _loadingSales = computed(() => this.loading());
@@ -21,7 +23,7 @@ export class HistorySaleController {
     this.loading.set(true);
     this.error.set(null);
 
-    this.orderHistoryService.getSales().pipe(take(1)).subscribe({
+    this.orderHistoryService.getSales().pipe(takeUntil(this.destroy$)).subscribe({
       next: (data: OrderItemHistory[]) => {
         this.salesSignal.set(data);
         this.loading.set(false);

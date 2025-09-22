@@ -11,14 +11,13 @@ export class UserRegisterController extends DestroySubject {
   private _errorMessage = signal<string>("");
 
   private readonly _loadingRequest: Signal<boolean> = computed(() => this._loadingRegisterUser());
-  private readonly _error: Signal<string> = computed(() => this._errorMessage());
 
   constructor(private authUserService: AuthUserService, private snackBarService: SnackBarService) {
     super();}
 
   registerUser(dataUser: User): Observable<User> {
     return this.authUserService.registerUser(dataUser)
-      .pipe(tap({
+      .pipe(takeUntil(this.destroy$),tap({
         next: () => this.snackBarService.showMessage("Usuario registrado con exito"),
         error: () => {
           this.snackBarService.showMessage("Error inesperado al guardar usuario")
@@ -29,7 +28,7 @@ export class UserRegisterController extends DestroySubject {
 
   updateDataUser(dataUser: User): Observable<User> {
     return this.authUserService.updateUser(dataUser)
-      .pipe(tap({
+      .pipe(takeUntil(this.destroy$), tap({
         next: () => this.snackBarService.showMessage("Usuario editado con exito"),
       error: () => {
         this.snackBarService.showMessage("Error inesperado al editar usuario");
@@ -43,7 +42,7 @@ export class UserRegisterController extends DestroySubject {
     return iif(() => !!user?.id, this.updateDataUser(user), this.registerUser(user))
       .pipe(takeUntil(this.destroy$),
         map(value => { return {...value, role: value.role.toLowerCase()} }), tap({
-        next: (value: User) => {
+        next: () => {
           this._loadingRegisterUser.set(false);
         }, error: () => this._loadingRegisterUser.set(false)
       }));
@@ -51,9 +50,5 @@ export class UserRegisterController extends DestroySubject {
 
   get loadingRequest(): Signal<boolean> {
     return this._loadingRequest;
-  }
-
-  get error(): Signal<string> {
-    return this._error;
   }
 }

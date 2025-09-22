@@ -14,7 +14,7 @@ import {AddLaboratoryComponent} from '../add-laboratory/add-laboratory.component
 import {LaboratoryController} from '../../controllers/laboratory.controller';
 import {CategoryController} from '../../controllers/category.controller';
 import {Category, Laboratory} from '../../models/ApplicationValue';
-import {iif, of, switchMap, tap} from 'rxjs';
+import {iif, of, switchMap, take, tap} from 'rxjs';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {NgForOf, NgIf} from '@angular/common';
 import {PRODUCT_PRICE_TYPE} from '../../constants/product.constants';
@@ -117,7 +117,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
       width: "400px",
       height: "400px"
     }).beforeClosed()
-      .pipe(switchMap(value => {
+      .pipe(take(1), switchMap(value => {
         return iif(() => !!Object.values(value)?.length, this.laboratoryController.addLaboratory(value), of(null));
       }), tap(value => {
         if(value?.laboratoryId) this.productForm.get('laboratory')?.setValue(value);
@@ -130,7 +130,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
       width: "400px",
       height: "400px"
     }).beforeClosed()
-      .pipe(switchMap(value => {
+      .pipe(take(1), switchMap(value => {
         return iif(() => !!Object.values(value)?.length, this.categoryController.addCategory(value), of(null));
       }), tap(value => {
         if(value?.categoryId) this.productForm.get('category')?.setValue(value);

@@ -3,10 +3,12 @@ import {Product} from '../../models/product.model';
 import {ProductListComponent} from '../product-list/product-list.component';
 import {ProductController} from '../../controllers/product.controller';
 import {AddProductComponent} from '../add-product/add-product.component';
-import {EMPTY, switchMap, tap} from 'rxjs';
+import {EMPTY, switchMap, take, tap} from 'rxjs';
 import {ConfirmMessageComponent} from '../confirm-message/confirm-message.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmMessageData} from '../../models/confirm-message-data';
+import {CategoryController} from '../../controllers/category.controller';
+import {LaboratoryController} from '../../controllers/laboratory.controller';
 
 @Component({
   selector: 'app-products',
@@ -27,7 +29,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
   private dialog = inject(MatDialog);
   savingProduct = signal<boolean>(false);
 
-  constructor(private productController: ProductController) {}
+  constructor(private productController: ProductController,
+              private categoryController: CategoryController,
+              private laboratoryController: LaboratoryController) {}
 
   ngOnInit(): void {
     this.products = this.productController.productsGot();
@@ -59,6 +63,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.productController.destroySubscriptions();
+    this.categoryController.destroySubscriptions();
+    this.laboratoryController.destroySubscriptions();
   }
 
   dialogDeleteProduct(product: Product) {
@@ -68,7 +74,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       width: '400px',
       data: infoData,
     });
-    dialogRef.afterClosed().pipe(switchMap(value => {
+    dialogRef.afterClosed().pipe(take(1), switchMap(value => {
       return value ? this.productController.deleteProduct(product.id as number): EMPTY;
     })).subscribe();
   }

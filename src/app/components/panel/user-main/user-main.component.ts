@@ -6,7 +6,7 @@ import {UserFormComponent} from '../user-form/user-form.component';
 import {User} from '../../../models/user.models';
 import {ConfirmMessageData} from '../../../models/confirm-message-data';
 import {ConfirmMessageComponent} from '../../confirm-message/confirm-message.component';
-import {EMPTY, switchMap} from 'rxjs';
+import {EMPTY, switchMap, take} from 'rxjs';
 
 @Component({
   selector: 'app-user-main',
@@ -37,7 +37,7 @@ export class UserMainComponent implements OnInit, OnDestroy {
       width: '420px',
       data: infoData,
     });
-    dialogRef.afterClosed().pipe(switchMap(value => {
+    dialogRef.afterClosed().pipe(take(1), switchMap(value => {
       return value ? this.userController.deleteProduct(user.id as number): EMPTY;
     })).subscribe();
   }

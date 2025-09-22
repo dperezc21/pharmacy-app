@@ -2,7 +2,7 @@ import {computed, Injectable, Signal, signal} from '@angular/core';
 import {AuthUserService} from '../services/auth-user.service';
 import {User} from '../models/user.models';
 import {DestroySubject} from '../services/destroy-subject.service';
-import {map, Observable, takeUntil, tap} from 'rxjs';
+import {map, Observable, take, takeUntil, tap} from 'rxjs';
 import {SnackBarService} from '../services/snack-bar.service';
 
 @Injectable({ providedIn: "root" })
@@ -29,7 +29,7 @@ export class UserController extends DestroySubject {
 
   deleteProduct(productId: number): Observable<boolean> {
     return this.userService.deleteUser(productId)
-      .pipe(tap({
+      .pipe(take(1),tap({
         next: value => {
           if (value) {
             this.removeUserOfList(productId);
