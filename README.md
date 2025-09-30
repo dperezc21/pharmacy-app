@@ -27,10 +27,10 @@ The Pharmacy Management App is a frontend interface that interacts with a backen
 ![home.png](public/images/home.png)
 
 ### 🟩 Product Form
-![product form.png](public/images/product form.png)
+![product form.png](public/images/product-form.png)
 
 ### 🟫 Sell products
-![sell products.png](public/images/sell products.png)
+![sell products.png](public/images/sell-products.png)
 
 ---
 
