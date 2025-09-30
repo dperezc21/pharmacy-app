@@ -1,59 +1,48 @@
-# PharmacyApp
+# 💊 Pharmacy Management Web App (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.15.
+This is a **web application built with Angular** for managing a **pharmacy system**. The app provides an intuitive interface to handle user authentication, manage product inventory, and perform administrative operations like adding/editing users and products.
 
-## Development server
+It is designed to be used by pharmacy staff (admins and regular users) to easily control inventory, track stock levels, and manage pricing for each product.
 
-To start a local development server, run:
+## 🧾 Description
 
-```bash
-ng serve
-```
+The Pharmacy Management App is a frontend interface that interacts with a backend REST API (e.g., Spring Boot). It enables the following core functionalities:
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- 🔐 User login and registration using JWT authentication
+- 👤 User management (CRUD) for admins
+- 📦 Product management with support for multiple price types (purchase/sale)
+- 🗂 Inventory display with current stock information
+- 🎨 Responsive UI for both desktop and tablet use
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 📸 UI Screenshots
 
-```bash
-ng generate component component-name
-```
+> You can place your UI screenshots here by uploading images to your repository and linking them.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 🟦 Login Page
+![login.png](public/images/login.png)
 
-```bash
-ng generate --help
-```
+### 🟨 Home
+![home.png](public/images/home.png)
 
-## Building
+### 🟩 Product Form
+![product form.png](public/images/product form.png)
 
-To build the project run:
+### 🟫 Sell products
+![sell products.png](public/images/sell products.png)
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## ⚙️ Technologies Used
 
-## Running unit tests
+- Angular 19
+- TypeScript
+- RxJS
+- Angular Router
+- Angular Reactive Forms
+- Angular Material (or Bootstrap)
+- JWT Token Authentication (via HTTP Interceptor)
+- Integration with Spring Boot REST API
+- electron builder
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
